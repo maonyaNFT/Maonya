@@ -2234,6 +2234,145 @@ opacity:0.04 !important;
 .page-cover-sub { font-size:0.88rem !important; padding:0 1rem !important; }
 }
 
+/* ═══════════════════════════════════════════
+SISTEMA DE RANGOS — Standard / Limited / Special Reserve / Masterpiece
+═══════════════════════════════════════════ */
+
+/* Badge en product card */
+.rango-badge {
+display: inline-flex;
+align-items: center;
+gap: 0.3rem;
+font-family: ‘Space Mono’, monospace;
+font-size: 0.58rem;
+letter-spacing: 0.13em;
+text-transform: uppercase;
+font-weight: 700;
+padding: 0.22rem 0.6rem;
+border-radius: 0.2rem;
+border: 1px solid;
+margin-bottom: 0.5rem;
+width: fit-content;
+line-height: 1;
+}
+.rango-badge .rango-dot {
+width: 5px; height: 5px;
+border-radius: 50%;
+background: currentColor;
+flex-shrink: 0;
+}
+
+/* Standard */
+.rango-std {
+color: #6B7280;
+background: rgba(107,114,128,0.08);
+border-color: rgba(107,114,128,0.22);
+}
+/* Limited */
+.rango-ltd {
+color: #9945FF;
+background: rgba(153,69,255,0.08);
+border-color: rgba(153,69,255,0.25);
+}
+/* Special Reserve */
+.rango-sr {
+color: #059669;
+background: rgba(20,241,149,0.08);
+border-color: rgba(20,241,149,0.28);
+}
+/* Masterpiece */
+.rango-mp {
+color: #B45309;
+background: rgba(245,158,11,0.10);
+border-color: rgba(245,158,11,0.32);
+animation: goldPulse 3s ease-in-out infinite;
+}
+@keyframes goldPulse {
+0%,100% { box-shadow: none; }
+50%      { box-shadow: 0 0 8px rgba(245,158,11,0.35); }
+}
+
+/* Masterpiece card: gold accent border */
+.product-card[data-rango=“mp”] {
+border-color: rgba(245,158,11,0.28) !important;
+}
+.product-card[data-rango=“mp”]:hover {
+border-color: rgba(245,158,11,0.55) !important;
+box-shadow: 0 12px 40px rgba(245,158,11,0.12) !important;
+}
+
+/* Special Reserve card: green accent */
+.product-card[data-rango=“sr”]:hover {
+border-color: rgba(20,241,149,0.40) !important;
+box-shadow: 0 12px 40px rgba(20,241,149,0.10) !important;
+}
+
+/* ── Filtros de rango ── */
+.rango-filters {
+display: flex;
+gap: 0.5rem;
+margin-bottom: 1.75rem;
+flex-wrap: wrap;
+justify-content: center;
+}
+.rango-filter-btn {
+display: inline-flex;
+align-items: center;
+gap: 0.4rem;
+padding: 0.5rem 1.1rem;
+border-radius: 0.25rem;
+border: 1.5px solid rgba(0,0,0,0.1);
+background: white;
+font-family: ‘Space Mono’, monospace;
+font-size: 0.62rem;
+letter-spacing: 0.1em;
+text-transform: uppercase;
+font-weight: 700;
+cursor: pointer;
+transition: all 0.2s;
+color: var(–text-mid);
+}
+.rango-filter-btn .rf-dot {
+width: 6px; height: 6px;
+border-radius: 50%;
+flex-shrink: 0;
+}
+.rango-filter-btn:hover,
+.rango-filter-btn.active {
+background: var(–text-dark);
+color: white;
+border-color: var(–text-dark);
+}
+.rango-filter-btn.active .rf-dot { background: white !important; }
+
+/* Precio coloreado por rango */
+.price-std { color: var(–text-dark); }
+.price-ltd { color: #9945FF; }
+.price-sr  { color: #059669; }
+.price-mp  { color: #B45309; }
+
+/* Contador de rango en tienda */
+.rango-count-bar {
+display: flex;
+gap: 1rem;
+justify-content: center;
+flex-wrap: wrap;
+margin-bottom: 2rem;
+}
+.rango-count-item {
+display: flex;
+align-items: center;
+gap: 0.4rem;
+font-family: ‘Space Mono’, monospace;
+font-size: 0.6rem;
+letter-spacing: 0.08em;
+text-transform: uppercase;
+color: var(–text-light);
+}
+.rango-count-num {
+font-weight: 700;
+color: var(–text-dark);
+}
 </style>
 
 </head>
@@ -2377,9 +2516,72 @@ opacity:0.04 !important;
 <!-- ═══════════════ CMS CONFIG ═══════════════ -->
 
 <script>
+
+/* ═══ MAONYA — 50 PRODUCTOS — edita nombre/desc/precio aquí ═══ */
+const PRODUCTOS_MAONYA = [
+  {id:1,numero:'001',nombre:'Solana Spirit',desc:'El espíritu de la red más rápida del mundo.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:2,numero:'002',nombre:'Crypto Vibes',desc:'La energía del mercado, llevada en cada hilo.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:3,numero:'003',nombre:'Web3 Revolution',desc:'La revolución descentralizada empieza aquí.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:4,numero:'004',nombre:'Blockchain Dreams',desc:'Cada bloque, un sueño construido en cadena.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:5,numero:'005',nombre:'NFT Culture',desc:'Cultura digital hecha prenda física.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:6,numero:'006',nombre:'Digital Soul',desc:'Tu alma tiene versión digital. Esta es.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:7,numero:'007',nombre:'Metaverse Mode',desc:'Activado para ambos mundos.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:8,numero:'008',nombre:'Phantom Guardian',desc:'Guardián de tu identidad on-chain.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:9,numero:'009',nombre:'SOL Energy',desc:'Velocidad de Solana, estilo de calle.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:10,numero:'010',nombre:'USDC Lifestyle',desc:'Estabilidad como filosofía de vida.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:11,numero:'011',nombre:'Token Holder',desc:'El que guarda, construye el futuro.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:12,numero:'012',nombre:'Wallet Warrior',desc:'Tu wallet, tu fortaleza.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:13,numero:'013',nombre:'Chain Link',desc:'Cada enlace conecta mundos.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:14,numero:'014',nombre:'Block Builder',desc:'Construyendo el mañana, bloque a bloque.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:15,numero:'015',nombre:'Decentralized',desc:'Sin centro, sin límites.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:16,numero:'016',nombre:'Smart Contract',desc:'Código que no miente. Moda que no engaña.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:17,numero:'017',nombre:'Consensus',desc:'Todos de acuerdo en que esto es arte.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:18,numero:'018',nombre:'Validator',desc:'Validado en blockchain. Verificado en la calle.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:19,numero:'019',nombre:'Stake Holder',desc:'Comprometido con el protocolo y con el estilo.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:20,numero:'020',nombre:'Mint Master',desc:'El primero en acuñar. El primero en llevar.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:21,numero:'021',nombre:'Hodl Strong',desc:'Aguanta. El tiempo da la razón.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:22,numero:'022',nombre:'Moon Shot',desc:'Apunta alto. Viste diferente.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:23,numero:'023',nombre:'Diamond Hands',desc:'Nunca sueltas lo que vale.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:24,numero:'024',nombre:'Defi Degen',desc:'El riesgo calculado como forma de arte.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:25,numero:'025',nombre:'Yield Farmer',desc:'Siembras estilo, cosechas identidad.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:49.99,rango:{nombre:'Standard Edition',abbr:'std',clase:'rango-std'}},
+  {id:26,numero:'026',nombre:'Liquidity Pool',desc:'Donde confluyen el arte y el valor.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:27,numero:'027',nombre:'Swap Master',desc:'Intercambia activos. Intercambia perspectivas.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:28,numero:'028',nombre:'Bridge Builder',desc:'Tendiendo puentes entre lo físico y lo digital.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:29,numero:'029',nombre:'Cross Chain',desc:'Sin fronteras entre cadenas ni mundos.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:30,numero:'030',nombre:'Protocol Punk',desc:'El protocolo es la nueva contracultura.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:31,numero:'031',nombre:'Network Node',desc:'Un nodo en la red global de la moda.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:32,numero:'032',nombre:'Governance',desc:'El poder de decidir, llevado con elegancia.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:33,numero:'033',nombre:'DAO Dreamer',desc:'Organizado sin jerarquías. Libre por diseño.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:34,numero:'034',nombre:'Treasury Tycoon',desc:'El tesoro está en lo que llevas puesto.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:35,numero:'035',nombre:'Proposal Pro',desc:'Propone. Construye. Inspira.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:36,numero:'036',nombre:'Community Core',desc:'El núcleo que mantiene viva la comunidad.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:37,numero:'037',nombre:'Ecosystem',desc:'Parte de algo más grande que una prenda.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:38,numero:'038',nombre:'Builder Mindset',desc:'Los que construyen no hablan, visten.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:39,numero:'039',nombre:'Innovation Hub',desc:'El hub donde nace lo siguiente.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:40,numero:'040',nombre:'Future First',desc:'Siempre un paso adelante del presente.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:52.99,rango:{nombre:'Limited Edition',abbr:'ltd',clase:'rango-ltd'}},
+  {id:41,numero:'041',nombre:'Proof of Stake',desc:'Comprometido con el valor. Comprometido con el arte.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:55.99,rango:{nombre:'Special Reserve',abbr:'sr',clase:'rango-sr'}},
+  {id:42,numero:'042',nombre:'Sharding Soul',desc:'Dividido entre mundos. Único en ambos.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:55.99,rango:{nombre:'Special Reserve',abbr:'sr',clase:'rango-sr'}},
+  {id:43,numero:'043',nombre:'Interop King',desc:'La interoperabilidad como forma de vida.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:55.99,rango:{nombre:'Special Reserve',abbr:'sr',clase:'rango-sr'}},
+  {id:44,numero:'044',nombre:'Zero Knowledge',desc:'Prueba sin revelar. Arte sin explicar.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:55.99,rango:{nombre:'Special Reserve',abbr:'sr',clase:'rango-sr'}},
+  {id:45,numero:'045',nombre:'Layer Two',desc:'La segunda capa donde vive el verdadero rendimiento.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:55.99,rango:{nombre:'Special Reserve',abbr:'sr',clase:'rango-sr'}},
+  {id:46,numero:'046',nombre:'Consensus King',desc:'El acuerdo como arte. La unanimidad como estilo.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:55.99,rango:{nombre:'Special Reserve',abbr:'sr',clase:'rango-sr'}},
+  {id:47,numero:'047',nombre:'Burn Protocol',desc:'Lo que se quema no desaparece. Se transforma.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:55.99,rango:{nombre:'Special Reserve',abbr:'sr',clase:'rango-sr'}},
+  {id:48,numero:'048',nombre:'Genesis Block',desc:'El primero de todos. El origen de la cadena MAONYA.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:58.99,rango:{nombre:'Masterpiece',abbr:'mp',clase:'rango-mp'}},
+  {id:49,numero:'049',nombre:'Phygital One',desc:'La fusión perfecta. Física y digital en una sola pieza.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:58.99,rango:{nombre:'Masterpiece',abbr:'mp',clase:'rango-mp'}},
+  {id:50,numero:'050',nombre:'MAONYA Origin',desc:'El diseño que lo empezó todo. Irrepetible por definición.',colores:['Negro','Blanco'],tallas:['XS','S','M','L','XL','2XL','3XL'],precioEUR:58.99,rango:{nombre:'Masterpiece',abbr:'mp',clase:'rango-mp'}}
+];
+</script>
+
+<script>
 const CMS = {
   moneda:{fiat:'EUR',simbolo:'€',crypto:'SOL',cryptoSimbolo:'SOL'},
   precioBaseEUR:49.99,
+  rangos:[
+    {nombre:'Standard Edition',abbr:'std',desde:1,hasta:25,precio:49.99,clase:'rango-std'},
+    {nombre:'Limited Edition', abbr:'ltd',desde:26,hasta:40,precio:52.99,clase:'rango-ltd'},
+    {nombre:'Special Reserve', abbr:'sr', desde:41,hasta:47,precio:55.99,clase:'rango-sr'},
+    {nombre:'Masterpiece',     abbr:'mp', desde:48,hasta:50,precio:58.99,clase:'rango-mp'},
+  ],
   coleccion:[
     'Solana Spirit','Crypto Vibes','Web3 Revolution','Blockchain Dreams','NFT Culture',
     'Digital Soul','Metaverse Mode','Phantom Guardian','SOL Energy','USDC Lifestyle',
@@ -3054,7 +3256,33 @@ const CMS = {
 
 <section class="section" style="padding-top:3rem;">
     <div class="container">
-        <div class="tienda-grid" id="tienda-grid"></div>
+        <div class="rango-filters" id="rangoFilters">
+  <button class="rango-filter-btn active" onclick="filtrarRango(null,this)">
+    <span class="rf-dot" style="background:#000000"></span>Todos
+  </button>
+  <button class="rango-filter-btn" onclick="filtrarRango('std',this)">
+    <span class="rf-dot" style="background:#6B7280"></span>Standard Edition
+  </button>
+  <button class="rango-filter-btn" onclick="filtrarRango('ltd',this)">
+    <span class="rf-dot" style="background:#9945FF"></span>Limited Edition
+  </button>
+  <button class="rango-filter-btn" onclick="filtrarRango('sr',this)">
+    <span class="rf-dot" style="background:#059669"></span>Special Reserve
+  </button>
+  <button class="rango-filter-btn" onclick="filtrarRango('mp',this)">
+    <span class="rf-dot" style="background:#B45309"></span>Masterpiece
+  </button>
+</div>
+<div class="rango-count-bar">
+  <div class="rango-count-item"><span class="rango-count-num">25</span>Standard</div>
+  <div class="rango-count-item" style="color:rgba(0,0,0,0.15)">·</div>
+  <div class="rango-count-item"><span class="rango-count-num">15</span>Limited</div>
+  <div class="rango-count-item" style="color:rgba(0,0,0,0.15)">·</div>
+  <div class="rango-count-item"><span class="rango-count-num">7</span>Special Reserve</div>
+  <div class="rango-count-item" style="color:rgba(0,0,0,0.15)">·</div>
+  <div class="rango-count-item"><span class="rango-count-num">3</span>Masterpiece</div>
+</div>
+<div class="tienda-grid" id="tienda-grid"></div>
     </div>
 </section>
 
@@ -3434,9 +3662,12 @@ async function fetchSolPrice(){
 }
 function convertirEURaSOL(eur){if(!precioSOL||precioSOL<=0)return'...';return(eur/precioSOL).toFixed(4);}
 function actualizarPreciosDOM(){
-    document.querySelectorAll('.product-card').forEach(c=>{
+    document.querySelectorAll('.product-card').forEach((c,i)=>{
         const s=c.querySelector('.sol-price span:last-child');
-        if(s&&precioSOL>0) s.textContent=`${convertirEURaSOL(CMS.precioBaseEUR)} ${CMS.moneda.cryptoSimbolo}`;
+        const idx=parseInt(c.getAttribute('data-index')||'0');
+        const prod=productos[idx];
+        const eur=prod?prod.precioEUR:CMS.precioBaseEUR;
+        if(s&&precioSOL>0) s.textContent=`${convertirEURaSOL(eur)} ${CMS.moneda.cryptoSimbolo}`;
     });
     const ms=document.getElementById('modalPriceSOL');
     if(ms&&precioSOL>0) ms.textContent=`≈ ${convertirEURaSOL(CMS.precioBaseEUR)} ${CMS.moneda.cryptoSimbolo}`;
@@ -3555,18 +3786,30 @@ async function initProductos() {
 }
 
 function generarProductos(){
-    productos=CMS.coleccion.map((nombre,i)=>({id:i+1,name:nombre,precioEUR:CMS.precioBaseEUR,numero:String(i+1).padStart(3,'0')}));
+    // Usa el array PRODUCTOS_MAONYA — edita los nombres/precios arriba
+    productos = PRODUCTOS_MAONYA.map(p => ({
+        id: p.id,
+        name: p.nombre,
+        numero: p.numero,
+        desc: p.desc,
+        precioEUR: p.precioEUR,
+        colores: p.colores,
+        tallas: p.tallas,
+        rango: p.rango
+    }));
 }
 
-function renderTienda(){
+function renderTienda(filtroRango=null){
     const grid=document.getElementById('tienda-grid');
     if(!grid)return;
     grid.innerHTML='';
-    productos.forEach((p,i)=>{
+    const lista=filtroRango?productos.filter(p=>p.rango&&p.rango.abbr===filtroRango):productos;
+    lista.forEach((p,i)=>{
         const c=document.createElement('div');
         c.className='product-card';
         c.style.animationDelay=`${i*0.03}s`;
         c.setAttribute('data-index',i);
+        c.setAttribute('data-rango',p.rango?p.rango.abbr:'std');
         c.onclick=()=>openProductModal(p);
         c.innerHTML=`
             <div class="product-image" style="${p.imagenUrl ? 'padding:0;background:#f5f5f7;' : ''}">
@@ -3577,9 +3820,10 @@ function renderTienda(){
     }
 </div>
             <div class="product-info">
+                <div class="rango-badge ${p.rango?p.rango.clase:'rango-std'}"><span class="rango-dot"></span>${p.rango?p.rango.nombre:'Standard Edition'}</div>
                 <div class="product-name">#${p.numero} · ${p.name}</div>
                 <div class="product-details">Negro / Blanco · Múltiples tallas</div>
-                <div class="product-price">
+                                <div class="product-price" style="color:${p.rango&&p.rango.abbr==='mp'?'#B45309':(p.rango&&p.rango.abbr==='sr'?'#059669':(p.rango&&p.rango.abbr==='ltd'?'#9945FF':'inherit'))}">
                     <span>${p.precioEUR.toFixed(2)} ${CMS.moneda.simbolo}</span>
                     <span class="sol-price"><span class="live-dot"></span><span>${convertirEURaSOL(p.precioEUR)} ${CMS.moneda.cryptoSimbolo}</span></span>
                 </div>
@@ -3587,6 +3831,14 @@ function renderTienda(){
         grid.appendChild(c);
     });
     setTimeout(revealProductCards,100);
+}
+
+function filtrarRango(abbr, btn){
+    // Update active button
+    document.querySelectorAll('.rango-filter-btn').forEach(b=>b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+    // Re-render with filter
+    renderTienda(abbr);
 }
 
 function revealProductCards(){
@@ -3602,6 +3854,23 @@ function openProductModal(p){
     currentProduct=p;selectedColor=null;selectedSize=null;
     document.getElementById('modalProductName').textContent=`#${p.numero} · ${p.name}`;
     document.getElementById('modalPriceEUR').textContent=`${p.precioEUR.toFixed(2)} ${CMS.moneda.simbolo}`;
+
+    // Descripción del producto
+    const modalDesc=document.getElementById('modalDesc');
+    if(modalDesc) modalDesc.textContent=p.desc||'';
+    // Colores dinámicos
+    const colorWrap=document.querySelector('.color-options');
+    if(colorWrap&&p.colores) colorWrap.innerHTML=p.colores.map(c=>`<button class='color-option' onclick='selectColor(this,"${c}")'>${c}</button>`).join('');
+    // Tallas dinámicas
+    const sizeWrap=document.querySelector('.size-options');
+    if(sizeWrap&&p.tallas) sizeWrap.innerHTML=p.tallas.map(t=>`<button class='size-option' onclick='selectSize(this,"${t}")'>${t}</button>`).join('');
+    // Rango badge en modal
+    const modalRango=document.getElementById('modalRangoBadge');
+    if(modalRango&&p.rango){
+        modalRango.className='rango-badge '+p.rango.clase;
+        modalRango.innerHTML=`<span class="rango-dot"></span>${p.rango.nombre}`;
+        modalRango.style.display='inline-flex';
+    }
     document.getElementById('modalPriceSOL').textContent=`≈ ${convertirEURaSOL(p.precioEUR)} ${CMS.moneda.cryptoSimbolo}`;
     document.querySelectorAll('.color-option,.size-option').forEach(b=>b.classList.remove('selected'));
     document.getElementById('productModal').classList.add('active');
