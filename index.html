@@ -11,47 +11,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAONYA · Tienda Phygital | Precios en vivo</title>
-    <!-- CRÍTICO: preload hero image ANTES que cualquier otra cosa -->
     <!-- Hero image: preload WebP primero, JPEG como fallback -->
     <link rel="preload" href="portada.webp" as="image" type="image/webp" fetchpriority="high" media="(min-width:769px)">
     <link rel="preload" href="portada-mobile.webp" as="image" type="image/webp" fetchpriority="high" media="(max-width:768px)">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"></noscript>
-    <!-- Phantom Wallet / Solana adapter -->
-    <meta name="description" content="MAONYA · Tienda Phygital | Streetwear + NFTs en Solana">
-    <meta property="og:title" content="MAONYA · Tienda Phygital">
-    <meta property="og:description" content="El puente entre streetwear oversize y el metaverso de Solana">
-    <meta name="theme-color" content="#9945FF">
-    <link rel="dns-prefetch" href="//api.coingecko.com">
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <meta name="color-scheme" content="light">
-    <style>
-        :root {
-            --purple: #9945FF;
-            --cyan: #14F195;
-            --white: #FFFFFF;
-            --off-white: #F8F7FF;
-            --soft-gray: #F2F2F7;
-            --text-dark: #0A0A0F;
-            --text-mid: #3C3C4C;
-            --text-light: #86869A;
-            --border: #E5E5EA;
-            --shadow-sm: 0 2px 12px rgba(0,0,0,0.06);
-            --shadow-md: 0 8px 32px rgba(0,0,0,0.10);
-            --shadow-lg: 0 20px 60px rgba(0,0,0,0.14);
-            --shadow-purple: 0 8px 40px rgba(153,69,255,0.18);
-        }
+
+```
+<title>MAONYA · Tienda Phygital | Precios en vivo</title>
+<!-- CRÍTICO: preload hero image ANTES que cualquier otra cosa -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&display=optional" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&display=optional" rel="stylesheet"></noscript>
+<!-- Phantom Wallet / Solana adapter -->
+<meta name="description" content="MAONYA · Tienda Phygital | Streetwear + NFTs en Solana">
+<meta property="og:title" content="MAONYA · Tienda Phygital">
+<meta property="og:description" content="El puente entre streetwear oversize y el metaverso de Solana">
+<meta name="theme-color" content="#9945FF">
+<link rel="dns-prefetch" href="//api.coingecko.com">
+<link rel="dns-prefetch" href="//fonts.gstatic.com">
+<meta name="color-scheme" content="light">
+<style>
+    :root {
+        --purple: #9945FF;
+        --cyan: #14F195;
+        --white: #FFFFFF;
+        --off-white: #F8F7FF;
+        --soft-gray: #F2F2F7;
+        --text-dark: #0A0A0F;
+        --text-mid: #3C3C4C;
+        --text-light: #86869A;
+        --border: #E5E5EA;
+        --shadow-sm: 0 2px 12px rgba(0,0,0,0.06);
+        --shadow-md: 0 8px 32px rgba(0,0,0,0.10);
+        --shadow-lg: 0 20px 60px rgba(0,0,0,0.14);
+        --shadow-purple: 0 8px 40px rgba(153,69,255,0.18);
+    }
+```
+
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{
-    font-family:'Syne',sans-serif;
-    background:var(--white);
-    color:var(--text-dark);
-    line-height:1.6;
-    overflow-x:hidden;
+font-family:‘Syne’,sans-serif;
+background:var(–white);
+color:var(–text-dark);
+line-height:1.6;
+overflow-x:hidden;
 }
 
 /* ── KEYFRAMES ── */
@@ -4030,6 +4034,33 @@ body { font-family: var(--font-body); }
 .section-eyebrow, .product-details, .space-mono,
 .rango-badge, .rango-filter-btn, .cart-badge {
   font-family: var(--font-mono);
+}
+</style>
+
+<style id="font-size-adjust">
+/* size-adjust: hace que Arial Black ocupe el mismo espacio que Bebas Neue */
+/* Esto hace que el swap NO cause layout shift */
+@font-face {
+  font-family: 'Bebas Neue';
+  src: local('Arial Black'), local('Impact');
+  font-display: optional;
+  size-adjust: 78%; /* Bebas Neue es más condensada que Arial Black */
+  ascent-override: 95%;
+  descent-override: 5%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Syne';
+  src: local('-apple-system'), local('BlinkMacSystemFont'), local('Segoe UI');
+  font-display: optional;
+  size-adjust: 100%;
+}
+@font-face {
+  font-family: 'Space Mono';
+  src: local('Courier New'), local('Courier');
+  font-display: optional;
+  size-adjust: 90%;
+  ascent-override: 90%;
 }
 </style>
 
