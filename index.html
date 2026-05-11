@@ -12,6 +12,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAONYA · Tienda Phygital | Precios en vivo</title>
+    <!-- CRÍTICO: preload hero image ANTES que cualquier otra cosa -->
+    <!-- Hero image: preload WebP primero, JPEG como fallback -->
+    <link rel="preload" href="portada.webp" as="image" type="image/webp" fetchpriority="high" media="(min-width:769px)">
+    <link rel="preload" href="portada-mobile.webp" as="image" type="image/webp" fetchpriority="high" media="(max-width:768px)">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -4009,6 +4013,74 @@ color: var(–text-dark);
 nav img{display:block;}
 </style>
 
+<style id="font-swap">
+/* Fuentes de sistema como fallback hasta que carguen Google Fonts */
+/* Evita CLS por reflow al cargar tipografía */
+:root {
+  --font-heading: 'Bebas Neue', 'Arial Black', Arial, sans-serif;
+  --font-body: 'Syne', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Space Mono', 'Courier New', monospace;
+}
+body { font-family: var(--font-body); }
+.hero-text h1, .page-cover-title, .section-title h2,
+[style*="Bebas"], .footer-bottom, h1, h2,
+.why-panel-title, .modal h2 {
+  font-family: var(--font-heading);
+}
+.section-eyebrow, .product-details, .space-mono,
+.rango-badge, .rango-filter-btn, .cart-badge {
+  font-family: var(--font-mono);
+}
+</style>
+
+<style id="anti-cls">
+/* ── ANTI CLS CRÍTICO ──
+   Reserva espacio para todos los elementos que cargan tarde
+   Objetivo: CLS < 0.1 (actualmente 0.279)
+*/
+
+/* Hero: reserva exacta del espacio */
+.hero-image,
+.hero-image-parallax {
+  aspect-ratio: 4 / 5;
+  background: #f2f2f7;
+  min-height: 300px;
+}
+.hero-image img,
+.hero-image-parallax img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Nav: altura fija para evitar reflow cuando cargan fuentes */
+.navbar-container { min-height: 4.5rem; }
+nav.scrolled .navbar-container { min-height: 3.75rem; }
+
+/* Logo: tamaño fijo */
+.logo-icon { width: 2.2rem; height: 2.2rem; flex-shrink: 0; }
+
+/* Secciones: evitar reflow por fuentes Bebas Neue */
+.section-title h2 { min-height: 1.2em; }
+.page-cover-title { min-height: 2em; }
+
+/* Product cards: altura fija de imagen */
+.product-image { height: 200px; overflow: hidden; flex-shrink: 0; }
+
+/* Feature band: altura fija */
+.feature-band { min-height: 3.5rem; overflow: hidden; }
+
+/* Por qué MAONYA panels: aspect ratio fijo */
+.why-panel-image-wrap { aspect-ratio: 3 / 2; min-height: 180px; }
+
+/* Hero eyebrow: inline-flex con min-width */
+.hero-eyebrow { min-height: 2rem; }
+
+/* Stat bar: altura fija */
+.why-stat-bar { min-height: 5rem; }
+</style>
+
 </head>
 <body>
 
@@ -4639,7 +4711,25 @@ const CMS = {
             <div class="false-3d-wrap px-near" id="heroImageWrap" style="border-radius:1.5rem;">
                 <div class="f3d-shadow"></div>
                 <div class="hero-image animate-float" id="heroImage">
-                    <img src="portada.png" alt="MAONYA Hero" class="px-bg-expand" fetchpriority="high" decoding="sync" width="600" height="750">
+                    <picture>
+                        <source
+                            srcset="portada-mobile.webp 400w, portada.webp 800w"
+                            sizes="(max-width:768px) 100vw, 50vw"
+                            type="image/webp">
+                        <source
+                            srcset="portada.jpg 800w"
+                            sizes="(max-width:768px) 100vw, 50vw"
+                            type="image/jpeg">
+                        <img
+                            src="portada.jpg"
+                            alt="MAONYA — Streetwear Phygital con NFT gemelo en Solana"
+                            class="px-bg-expand"
+                            fetchpriority="high"
+                            decoding="sync"
+                            width="800"
+                            height="1000"
+                            style="width:100%;height:100%;object-fit:cover;display:block;">
+                    </picture>
                     <div class="hero-image-overlay"></div>
                 </div>
             </div>
@@ -4686,7 +4776,7 @@ const CMS = {
             <div class="section-eyebrow">¿Por qué nosotros?</div>
             <h2 style="display:flex;align-items:center;justify-content:center;gap:0.4rem;flex-wrap:wrap;">
                 ¿Por qué
-                <img src="maonya.png" alt="MAONYA" style="height:38px;width:auto;vertical-align:middle;margin:0 4px;" width="180" height="38" decoding="async" loading="lazy">?
+                <img src="maonya.png" alt="MAONYA" style="height:38px;width:auto;vertical-align:middle;margin:0 4px;display:inline-block;" width="180" height="38" decoding="async" loading="lazy">?
             </h2>
             <p>La revolución de la moda Web3 comienza aquí</p>
         </div>
