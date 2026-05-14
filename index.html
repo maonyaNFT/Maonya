@@ -4298,7 +4298,17 @@ const CMS = {
                 </div>
             </div>
             <button class="btn-connect" id="walletBtn" onclick="connectWallet()">
-                <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span id="walletBtnText">Conectar</span>
+                <!-- Solana logo oficial -->
+                <svg class="icon-svg" viewBox="0 0 397 311" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;flex-shrink:0;">
+                  <defs>
+                    <linearGradient id="sol-a" x1="360" y1="35" x2="57" y2="338" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#9945FF"/>
+                      <stop offset="100%" stop-color="#14F195"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7zM64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1L333.1 73.8c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8zM333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z" fill="url(#sol-a)"/>
+                </svg>
+                <span id="walletBtnText">Conectar</span>
             </button>
         </div>
     </div>
@@ -4390,6 +4400,11 @@ const CMS = {
 .btn-auth.logged-in:hover{background:rgba(153,69,255,0.14);}
 @media(max-width:768px){
     .btn-auth span.auth-label{display:none;}
+    /* Wallet button: icon only on mobile */
+    .btn-connect #walletBtnText{display:none;}
+    .btn-connect{padding:0.5rem 0.55rem!important;gap:0!important;}
+    /* Tighten right-side nav gap */
+    .navbar-container > div:last-child{gap:0.35rem!important;}
 }
 
 /* ── AUTH MODAL ── */
@@ -5841,7 +5856,9 @@ function renderCartPanel() {
                     <div style="font-family:'Space Mono',monospace;font-size:0.75rem;color:#86869A;display:flex;align-items:center;gap:5px;"><span style="width:6px;height:6px;border-radius:50%;background:#14F195;display:inline-block;animation:pulse 1.5s infinite;"></span>≈ ${totalSOL} SOL</div>
                 </div>
             </div>
-            <button class="btn-checkout" onclick="checkout()">${walletAddress ? '🚀 Pagar con Phantom' : '🔗 Conectar Wallet para Pagar'}</button>
+            <button class="btn-checkout" onclick="checkout()">
+                ${walletAddress ? '🚀 Pagar con Phantom' : currentUser ? '✓ Finalizar Compra' : '🛒 Finalizar Compra'}
+            </button>
             <button class="btn-clear-cart" onclick="clearCart()">Vaciar carrito</button>`;
     }
 }
@@ -5849,13 +5866,6 @@ function renderCartPanel() {
 function clearCart() {
     if (!confirm('¿Vaciar el carrito?')) return;
     cart = []; saveCart(); updateCartBadge(); renderCartPanel();
-}
-
-function checkout() {
-    if (!walletAddress) { closeCart(); setTimeout(() => connectWallet(), 300); return; }
-    const total = cart.reduce((s, i) => s + i.precioEUR * i.qty, 0);
-    const totalSOL = convertirEURaSOL(total);
-    alert(`🚀 Procesando pago con Phantom\n\nWallet: ${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}\nTotal: ${total.toFixed(2)} € · ≈ ${totalSOL} SOL\n\nEn producción aquí se firmaría la transacción en Solana.`);
 }
 
 // Init cart badge on load
@@ -6223,19 +6233,25 @@ function closeCookieBanner(){
     let o2x = window.innerWidth * 0.7, o2y = window.innerHeight * 0.6;
     let mx  = o1x, my = o1y;
 
-    function tickOrbs() {
-        o1x = lerp(o1x, mx,        0.028);
-        o1y = lerp(o1y, my,        0.028);
-        o2x = lerp(o2x, mx + 200,  0.018);
-        o2y = lerp(o2y, my - 100,  0.018);
-        if (orb1) { orb1.style.left = (o1x - 300) + 'px'; orb1.style.top = (o1y - 300) + 'px'; }
-        if (orb2) { orb2.style.left = (o2x - 250) + 'px'; orb2.style.top = (o2y - 250) + 'px'; }
-        requestAnimationFrame(tickOrbs);
-    }
-
     if(window.matchMedia('(hover:hover)').matches&&window.innerWidth>1024){
         document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
-        tickOrbs();
+        // Throttle orbs: only run RAF when mouse has moved, stop when idle
+        let orbRafId, orbDirty = false;
+        function tickOrbsThrottled(){
+            o1x = lerp(o1x, mx,        0.028);
+            o1y = lerp(o1y, my,        0.028);
+            o2x = lerp(o2x, mx + 200,  0.018);
+            o2y = lerp(o2y, my - 100,  0.018);
+            if (orb1) { orb1.style.left = (o1x - 300) + 'px'; orb1.style.top = (o1y - 300) + 'px'; }
+            if (orb2) { orb2.style.left = (o2x - 250) + 'px'; orb2.style.top = (o2y - 250) + 'px'; }
+            const d1 = Math.abs(o1x-mx)+Math.abs(o1y-my);
+            const d2 = Math.abs(o2x-(mx+200))+Math.abs(o2y-(my-100));
+            if(d1 > 0.5 || d2 > 0.5) orbRafId = requestAnimationFrame(tickOrbsThrottled);
+            else orbDirty = false;
+        }
+        document.addEventListener('mousemove', ()=>{
+            if(!orbDirty){ orbDirty=true; orbRafId=requestAnimationFrame(tickOrbsThrottled); }
+        }, {passive:true});
     }else{if(orb1)orb1.style.display='none';if(orb2)orb2.style.display='none';}
 
     // ═══════════════════════════════════════════════
@@ -6246,17 +6262,19 @@ function closeCookieBanner(){
     let cx = window.innerWidth/2, cy = window.innerHeight/2;
     let rx = cx, ry = cy;
 
-    function animateCursor() {
-        rx = lerp(rx, cx, 0.11);
-        ry = lerp(ry, cy, 0.11);
-        if (cur) { cur.style.left = rx + 'px'; cur.style.top = ry + 'px'; }
-        requestAnimationFrame(animateCursor);
-    }
-
     if (window.matchMedia('(hover:hover)').matches && window.innerWidth > 1024) {
+        let curRafId, curDirty = false;
+        function animateCursorThrottled() {
+            rx = lerp(rx, cx, 0.11);
+            ry = lerp(ry, cy, 0.11);
+            if (cur) { cur.style.left = rx + 'px'; cur.style.top = ry + 'px'; }
+            if(Math.abs(rx-cx)>0.3 || Math.abs(ry-cy)>0.3) curRafId = requestAnimationFrame(animateCursorThrottled);
+            else curDirty = false;
+        }
         document.addEventListener('mousemove', e => {
             cx = e.clientX; cy = e.clientY;
             if (dot) { dot.style.left = cx + 'px'; dot.style.top = cy + 'px'; }
+            if(!curDirty){ curDirty=true; curRafId=requestAnimationFrame(animateCursorThrottled); }
         }, { passive: true });
 
         document.addEventListener('mouseover', e => {
@@ -6267,7 +6285,6 @@ function closeCookieBanner(){
             else if (e.target.closest('.btn-primary,.btn-secondary')) cur.classList.add('on-btn');
         });
 
-        animateCursor();
         document.body.style.cursor = 'none';
     }
 
@@ -6278,8 +6295,10 @@ function closeCookieBanner(){
     // ═══════════════════════════════════════════════
     let sY = window.scrollY, sTgt = sY;
     let sVel = 0, sPrevY = sY;
+    let pxDirty = false, pxRafId;
 
     function tickParallax() {
+        pxDirty = false;
         sVel  = sY - sPrevY;
         sPrevY = sY;
         sY = lerp(sY, sTgt, 0.085);
@@ -6313,12 +6332,16 @@ function closeCookieBanner(){
         // Maorí parallax
         tickMaoriParallax(sY);
 
-        requestAnimationFrame(tickParallax);
+        // Keep running until lerp settles
+        if(Math.abs(sY - sTgt) > 0.3) { pxDirty=true; pxRafId = requestAnimationFrame(tickParallax); }
     }
 
-    // ═══════════════════════════════════════════════
-    // 5.  SCROLL HANDLER
-    // ═══════════════════════════════════════════════
+    window.addEventListener('scroll', () => {
+        sTgt = window.scrollY;
+        if(!pxDirty){ pxDirty=true; pxRafId=requestAnimationFrame(tickParallax); }
+    }, {passive:true});
+
+    // Scroll handler already wired above in tickParallax setup
     const progressBar = qs('#scroll-progress');
     function updateProgress() {
         if (!progressBar) return;
@@ -6336,8 +6359,6 @@ function closeCookieBanner(){
         const ind = qs('#scrollIndicator');
         if (ind) ind.style.opacity = sTgt > 80 ? '0' : '1';
     }, { passive: true });
-
-    tickParallax();
 
     // ═══════════════════════════════════════════════
     // 6.  SVG TURBULENCE — hover distortion imágenes
@@ -7739,13 +7760,29 @@ nav { position: fixed; z-index: 1000; }
 #ambient-orb-1, #ambient-orb-2 { z-index: 1 !important; }
 .page { z-index: 2 !important; }
 nav { z-index: 1000 !important; }
-#cartPanel, #cartOverlay { z-index: 3500 !important; }
+#cartOverlay { z-index: 3500 !important; }
+#cartPanel   { z-index: 3600 !important; }
 .modal-overlay, .legal-overlay { z-index: 2000 !important; }
+.auth-overlay { z-index: 4000 !important; }
 #cookieBanner { z-index: 9999 !important; }
 #sz-cursor, #sz-cursor-dot { z-index: 9997 !important; }
 #page-transition { z-index: 9990 !important; }
 #scroll-progress { z-index: 2000 !important; }
 .back-to-top { z-index: 999 !important; }
+
+/* ── GPU PROMOTION: promote animated elements to their own compositor layer ── */
+#heroImage, #heroText, .hero-eyebrow, #heroSecondaryImg,
+#ambient-orb-1, #ambient-orb-2,
+#sz-cursor, #sz-cursor-dot,
+.mk, .px-layer-bg, .px-layer-mid, .px-layer-fg,
+.cinematic-fullwidth img, .why-panel-img-parallax-inner,
+#cartPanel, .auth-modal, .legal-modal {
+    will-change: transform;
+}
+/* Contain paint for background decorative elements */
+#maori-bg-global, #ambient-orb-1, #ambient-orb-2 {
+    contain: strict;
+}
 
 </style>
 
@@ -7876,8 +7913,10 @@ function setupParallaxEngine(){
   ];
   // Full-width expand scroll tracking
   const fwWraps = $$('.fw-expand-wrap');
+  let px2Dirty = false;
 
   function tick(){
+    px2Dirty = false;
     const sy = window.scrollY;
 
     // Parallax layers
@@ -7905,9 +7944,8 @@ function setupParallaxEngine(){
       if(!wrap) return;
       const rect = wrap.getBoundingClientRect();
       if(rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
-      // progress: 0 when bottom of section enters viewport, 1 when top leaves
       const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-      const offset = (progress - 0.5) * -160; // strong parallax: up to ±80px
+      const offset = (progress - 0.5) * -160;
       inner.style.transform = `translateY(${offset}px)`;
     });
 
@@ -7928,25 +7966,25 @@ function setupParallaxEngine(){
       const p = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
       el.style.transform = `translateX(${(p-0.5)*80}px) translateY(${(p-0.5)*-40}px)`;
     });
-
-    raf2 = requestAnimationFrame(tick);
   }
 
-  // Only start once
+  // Scroll-driven: fire on scroll, not perpetual RAF
   if(!window._px2Running){
     window._px2Running = true;
-    tick();
+    tick(); // initial render
+    window.addEventListener('scroll', () => {
+      if(!px2Dirty){ px2Dirty=true; requestAnimationFrame(tick); }
+    }, {passive:true});
   }
 }
 
 /* ════ 10. MOUSE TILT (faux 3D) ════ */
 function setupMouseTilt(){
   let mxL = window.innerWidth/2, myL = window.innerHeight/2;
+  let tiltDirty = false;
 
-  document.addEventListener('mousemove', e => {
-    mxL = lerp(mxL, e.clientX, 0.08);
-    myL = lerp(myL, e.clientY, 0.08);
-
+  function applyTilt(){
+    tiltDirty = false;
     const cx = window.innerWidth/2, cy = window.innerHeight/2;
     const dx = (mxL - cx)/cx, dy = (myL - cy)/cy;
 
@@ -7957,8 +7995,8 @@ function setupMouseTilt(){
 
     $$('.faux3d-scene').forEach(el => {
       const rect = el.getBoundingClientRect();
-      const localDx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-      const localDy = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
+      const localDx = ((mxL - rect.left) / rect.width - 0.5) * 2;
+      const localDy = ((myL - rect.top)  / rect.height - 0.5) * 2;
       const bg  = el.querySelector('.faux3d-bg');
       const mid = el.querySelector('.faux3d-mid');
       const fg  = el.querySelector('.faux3d-fg');
@@ -7966,6 +8004,12 @@ function setupMouseTilt(){
       if(mid) mid.style.transform = `translateZ(0)     scale(1)    translate(${localDx*6}px,${localDy*4}px)`;
       if(fg)  fg.style.transform  = `translateZ(30px)  scale(0.95) translate(${localDx*18}px,${localDy*12}px)`;
     });
+  }
+
+  document.addEventListener('mousemove', e => {
+    mxL = lerp(mxL, e.clientX, 0.08);
+    myL = lerp(myL, e.clientY, 0.08);
+    if(!tiltDirty){ tiltDirty=true; requestAnimationFrame(applyTilt); }
   }, { passive:true });
 
   // Apply mouse-tilt to hero image wrap
@@ -8051,14 +8095,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if(hImg) hImg.style.transition = 'transform 1.2s cubic-bezier(0.16,1,0.3,1), filter 0.8s ease';
 });
 
-/* ════ SCROLL PROGRESS BAR ════ */
-function updateScrollProgress(){
-  const el = document.getElementById('scroll-progress');
-  if(!el) return;
-  const max = document.documentElement.scrollHeight - window.innerHeight;
-  el.style.width = (max > 0 ? (window.scrollY/max)*100 : 0) + '%';
-}
-window.addEventListener('scroll', updateScrollProgress, { passive:true });
+// Scroll progress bar is handled inside IMMERSIVE_ENGINE scroll listener above
 
 })();
 </script>
@@ -8269,25 +8306,72 @@ function showAuthMsg(id, text, type){
     if(el){ el.textContent = text; el.className = 'auth-msg ' + type; }
 }
 
-// ── CHECKOUT: require login or wallet ──
+// ── CHECKOUT: funciona con wallet, cuenta de email, o sin nada (pide elegir) ──
 function checkout() {
-    if (!currentUser && !walletAddress) {
-        closeCart();
-        setTimeout(() => {
-            const want = confirm('Necesitas una cuenta o wallet para completar la compra.\n\n[Aceptar] → Iniciar sesión / Registrarse\n[Cancelar] → Conectar Phantom Wallet');
-            if(want) openAuthModal('login');
-            else connectWallet();
-        }, 300);
-        return;
-    }
+    if (cart.length === 0) return;
+
     const total = cart.reduce((s, i) => s + i.precioEUR * i.qty, 0);
     const totalSOL = convertirEURaSOL(total);
-    if(walletAddress){
-        alert(`🚀 Procesando pago con Phantom\n\nWallet: ${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}\nTotal: ${total.toFixed(2)} € · ≈ ${totalSOL} SOL\n\nEn producción aquí se firmaría la transacción en Solana.`);
-    } else {
-        alert(`✓ Pedido recibido\n\nCuenta: ${currentUser.email}\nTotal: ${total.toFixed(2)} €\n\nRecibirás un email de confirmación con los detalles del envío y el NFT.`);
-        cart = []; saveCart(); updateCartBadge(); closeCart();
+
+    // Si tiene wallet conectada → pago Phantom
+    if (walletAddress) {
+        showCheckoutModal({
+            icon: '🚀',
+            title: 'Pagar con Phantom',
+            body: `Wallet: <b>${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}</b><br>Total: <b>${total.toFixed(2)} €</b> · ≈ <b>${totalSOL} SOL</b><br><br><small style="color:#86869A">En producción aquí se firmaría la transacción on-chain en Solana.</small>`,
+            btnLabel: 'Confirmar Pago',
+            onConfirm: () => { cart = []; saveCart(); updateCartBadge(); closeCart(); }
+        });
+        return;
     }
+
+    // Si tiene cuenta de email → pedido por email
+    if (currentUser) {
+        showCheckoutModal({
+            icon: '✓',
+            title: 'Confirmar Pedido',
+            body: `Cuenta: <b>${currentUser.email}</b><br>Total: <b>${total.toFixed(2)} €</b><br><br><small style="color:#86869A">Recibirás un email de confirmación con los detalles del envío y tu NFT.</small>`,
+            btnLabel: 'Realizar Pedido',
+            onConfirm: () => { cart = []; saveCart(); updateCartBadge(); closeCart(); }
+        });
+        return;
+    }
+
+    // Sin cuenta ni wallet → mostrar opciones dentro del carrito
+    showCheckoutOptions(total, totalSOL);
+}
+
+function showCheckoutModal({ icon, title, body, btnLabel, onConfirm }) {
+    // Reusa el footer del carrito como área de confirmación
+    const footer = document.querySelector('#cartPanel > div:last-child');
+    if (!footer) return;
+    const prev = footer.innerHTML;
+    footer.innerHTML = `
+        <div style="background:#F8F7FF;border-radius:0.6rem;padding:1.1rem;margin-bottom:0.85rem;font-size:0.85rem;line-height:1.6;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.04em;margin-bottom:0.5rem;">${icon} ${title}</div>
+            ${body}
+        </div>
+        <button class="btn-checkout" onclick="(${onConfirm.toString()})();renderCartPanel();" style="background:#9945FF;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:6px;"><path d="M20 6L9 17l-5-5"/></svg>
+            ${btnLabel}
+        </button>
+        <button onclick="renderCartPanel()" style="width:100%;margin-top:0.5rem;padding:0.65rem;border:1.5px solid #E5E5EA;background:#fff;border-radius:0.5rem;cursor:pointer;font-family:'Syne',sans-serif;font-size:0.78rem;color:#86869A;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;">← Volver al carrito</button>`;
+}
+
+function showCheckoutOptions(total, totalSOL) {
+    const footer = document.querySelector('#cartPanel > div:last-child');
+    if (!footer) return;
+    footer.innerHTML = `
+        <div style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:#86869A;margin-bottom:0.75rem;text-align:center;">¿Cómo quieres pagar?</div>
+        <button class="btn-checkout" onclick="closeCart();setTimeout(()=>connectWallet(),300);" style="margin-bottom:0.5rem;background:#9945FF;display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+            <svg viewBox="0 0 397 311" fill="none" style="width:16px;height:16px;flex-shrink:0;"><defs><linearGradient id="sol-co" x1="360" y1="35" x2="57" y2="338" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="rgba(255,255,255,0.7)"/></linearGradient></defs><path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7zM64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1L333.1 73.8c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8zM333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z" fill="url(#sol-co)"/></svg>
+            Pagar con Phantom · ${totalSOL} SOL
+        </button>
+        <button class="btn-checkout" onclick="closeCart();setTimeout(()=>openAuthModal('login'),300);" style="background:#0A0A0F;margin-bottom:0.5rem;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:6px;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/></svg>
+            Pagar con Cuenta · ${total.toFixed(2)} €
+        </button>
+        <button onclick="renderCartPanel()" style="width:100%;padding:0.65rem;border:1.5px solid #E5E5EA;background:#fff;border-radius:0.5rem;cursor:pointer;font-family:'Syne',sans-serif;font-size:0.78rem;color:#86869A;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;">← Volver al carrito</button>`;
 }
 </script>
 
