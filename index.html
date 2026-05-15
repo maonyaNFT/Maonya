@@ -964,10 +964,12 @@ transition: opacity 0.2s;
 @media(hover:none){ #sz-cursor, #sz-cursor-dot { display:none; } }
 /* ── CURSOR SAFETY: ensure interactive elements always show pointer ── */
 @media(hover:hover){
-body{ cursor: none; }
-a, button, [onclick], label, select, input[type=submit], .nav-link, .card { cursor: none; }
+
+```
+a, button, [onclick], label, select, input[type=submit], .nav-link, .card {  }
+```
+
 }
-@media(hover:none){ body { cursor: auto !important; } }
 
 /* ── Reveal base ── */
 .reveal-on-scroll,
@@ -1032,7 +1034,7 @@ transition: transform 1s cubic-bezier(0.16,1,0.3,1);
 .img-distort-wrap {
 overflow: hidden;
 position: relative;
-cursor: none;
+
 }
 .img-distort-wrap img {
 display: block; width: 100%;
@@ -2656,7 +2658,7 @@ transition: transform 1s cubic-bezier(0.16,1,0.3,1);
 .img-distort-wrap {
 overflow: hidden;
 position: relative;
-cursor: none;
+
 }
 .img-distort-wrap img {
 display: block; width: 100%;
@@ -6262,7 +6264,7 @@ function closeCookieBanner(){
     let cx = window.innerWidth/2, cy = window.innerHeight/2;
     let rx = cx, ry = cy;
 
-    if (window.matchMedia('(hover:hover)').matches && window.innerWidth > 1024) {
+    if (false) { // custom cursor disabled
         let curRafId, curDirty = false;
         function animateCursorThrottled() {
             rx = lerp(rx, cx, 0.11);
@@ -6285,7 +6287,7 @@ function closeCookieBanner(){
             else if (e.target.closest('.btn-primary,.btn-secondary')) cur.classList.add('on-btn');
         });
 
-        document.body.style.cursor = 'none'; /* custom cursor active */
+        
     }
 
     // ═══════════════════════════════════════════════
@@ -7765,7 +7767,7 @@ nav { z-index: 1000 !important; }
 .modal-overlay, .legal-overlay { z-index: 2000 !important; }
 .auth-overlay { z-index: 4000 !important; }
 #cookieBanner { z-index: 9999 !important; }
-#sz-cursor, #sz-cursor-dot { z-index: 9997 !important; }
+#sz-cursor, #sz-cursor-dot { display:none !important; }
 #page-transition { z-index: 9990 !important; }
 #scroll-progress { z-index: 2000 !important; }
 .back-to-top { z-index: 999 !important; }
