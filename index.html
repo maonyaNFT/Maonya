@@ -95,20 +95,32 @@ transition:opacity 0.2s;
 .logo-icon{width:2.2rem;height:2.2rem;display:flex;align-items:center;justify-content:center;border-radius:0.5rem;overflow:hidden;}
 .logo-icon img{width:100%;height:100%;object-fit:contain;}
 
-.nav-menu{display:flex;align-items:center;gap:0.25rem;list-style:none;}
+.nav-menu{
+display:flex;align-items:center;gap:0.15rem;list-style:none;
+background:rgba(0,0,0,0.045);
+border-radius:2rem;
+padding:0.28rem;
+border:1px solid rgba(229,229,234,0.9);
+}
 .nav-menu a{
 position:relative;
-color:var(–text-mid);text-decoration:none;
-font-weight:500;font-size:0.9rem;letter-spacing:0.01em;
-cursor:pointer;padding:0.5rem 0.85rem;border-radius:0.5rem;
-transition:all 0.2s;
+color:#5A5A72;text-decoration:none;
+font-weight:600;font-size:0.72rem;letter-spacing:0.05em;text-transform:uppercase;
+cursor:pointer;padding:0.42rem 0.85rem;border-radius:1.5rem;
+transition:all 0.2s cubic-bezier(0.25,0.46,0.45,0.94);
+white-space:nowrap;
 }
-.nav-menu a:hover{color:var(–text-dark);background:rgba(0,0,0,0.04);}
-.nav-menu a.active{color:var(–purple);}
-.nav-menu a.active::after{
-content:’’;position:absolute;bottom:2px;left:50%;transform:translateX(-50%);
-width:4px;height:4px;background:var(–purple);border-radius:50%;
+.nav-menu a:hover{
+color:#0A0A0F;
+background:rgba(255,255,255,0.92);
+box-shadow:0 1px 8px rgba(0,0,0,0.08);
 }
+.nav-menu a.active{
+color:#fff;
+background:#0A0A0F;
+box-shadow:0 2px 12px rgba(0,0,0,0.2);
+}
+.nav-menu a.active::after { display:none !important; }
 
 .btn-connect{
 display:flex;align-items:center;gap:0.4rem;
@@ -609,16 +621,9 @@ background: none !important;
 color: var(–text-mid) !important;
 position: relative;
 }
-.nav-menu a:hover { color: var(–text-dark) !important; background: none !important; }
-.nav-menu a.active { color: var(–text-dark) !important; }
-.nav-menu a.active::after {
-content: ‘’ !important; position: absolute !important;
-bottom: 0; left: 0.7rem; right: 0.7rem;
-height: 1px !important; width: auto !important;
-background: var(–text-dark) !important;
-border-radius: 0 !important;
-transform: none !important;
-}
+.nav-menu a:hover { color: #0A0A0F !important; }
+.nav-menu a.active { color: #fff !important; background:#0A0A0F !important; }
+.nav-menu a.active::after { display:none !important; }
 
 /* ── Botón conectar: minimalista, sin border-radius extremo ── */
 .btn-connect {
@@ -931,34 +936,38 @@ transform-origin: bottom;
 #sz-cursor {
 position: fixed;
 width: 44px; height: 44px;
-border: 1.5px solid var(–text-dark);
+border: 2px solid rgba(10,10,15,0.8);
 border-radius: 50%;
-pointer-events: none;
+pointer-events: none !important;
 z-index: 9997;
 transform: translate(-50%, -50%);
-transition: width 0.4s cubic-bezier(0.16,1,0.3,1),
-height 0.4s cubic-bezier(0.16,1,0.3,1),
-border-color 0.3s ease,
-background 0.3s ease,
-opacity 0.3s ease;
-mix-blend-mode: exclusion;
+transition: width 0.35s cubic-bezier(0.16,1,0.3,1),
+height 0.35s cubic-bezier(0.16,1,0.3,1),
+border-color 0.2s ease,
+background 0.2s ease;
 background: transparent;
+opacity: 1;
 }
 #sz-cursor-dot {
 position: fixed;
-width: 5px; height: 5px;
-background: var(–text-dark);
+width: 6px; height: 6px;
+background: #0A0A0F;
 border-radius: 50%;
 pointer-events: none;
 z-index: 9998;
 transform: translate(-50%, -50%);
-mix-blend-mode: exclusion;
 transition: opacity 0.2s;
 }
-#sz-cursor.on-link  { width: 72px; height: 72px; background: var(–text-dark); border-color: var(–text-dark); }
-#sz-cursor.on-img   { width: 80px; height: 80px; border-color: var(–cyan); border-width: 2px; }
+#sz-cursor.on-link  { width: 60px; height: 60px; background: rgba(153,69,255,0.12); border-color: #9945FF; border-width: 2px; }
+#sz-cursor.on-img   { width: 70px; height: 70px; border-color: #14F195; border-width: 2px; }
 #sz-cursor.on-btn   { width: 56px; height: 56px; background: rgba(153,69,255,0.15); border-color: var(–purple); }
 @media(hover:none){ #sz-cursor, #sz-cursor-dot { display:none; } }
+/* ── CURSOR SAFETY: ensure interactive elements always show pointer ── */
+@media(hover:hover){
+body{ cursor: none; }
+a, button, [onclick], label, select, input[type=submit], .nav-link, .card { cursor: none; }
+}
+@media(hover:none){ body { cursor: auto !important; } }
 
 /* ── Reveal base ── */
 .reveal-on-scroll,
@@ -1972,9 +1981,9 @@ Injected last so it wins every specificity battle.
 /* NAV */
 nav { background: rgba(255,255,255,0.94) !important; }
 nav.scrolled { background: #ffffff !important; box-shadow: 0 1px 40px rgba(0,0,0,0.08) !important; }
-.nav-menu a { color: #3C3C4C !important; }
+.nav-menu a { color: #5A5A72 !important; }
 .nav-menu a:hover { color: #0A0A0F !important; }
-.nav-menu a.active { color: #0A0A0F !important; }
+.nav-menu a.active { color: #fff !important; background: #0A0A0F !important; }
 .btn-connect { background: #0A0A0F !important; color: #ffffff !important; }
 .btn-connect:hover { background: #9945FF !important; }
 
@@ -2242,16 +2251,9 @@ background: none !important;
 color: var(–text-mid) !important;
 position: relative;
 }
-.nav-menu a:hover { color: var(–text-dark) !important; background: none !important; }
-.nav-menu a.active { color: var(–text-dark) !important; }
-.nav-menu a.active::after {
-content: ‘’ !important; position: absolute !important;
-bottom: 0; left: 0.7rem; right: 0.7rem;
-height: 1px !important; width: auto !important;
-background: var(–text-dark) !important;
-border-radius: 0 !important;
-transform: none !important;
-}
+.nav-menu a:hover { color: #0A0A0F !important; }
+.nav-menu a.active { color: #fff !important; background:#0A0A0F !important; }
+.nav-menu a.active::after { display:none !important; }
 
 /* ── Botón conectar: minimalista, sin border-radius extremo ── */
 .btn-connect {
@@ -2564,32 +2566,30 @@ transform-origin: bottom;
 #sz-cursor {
 position: fixed;
 width: 44px; height: 44px;
-border: 1.5px solid var(–text-dark);
+border: 2px solid rgba(10,10,15,0.8);
 border-radius: 50%;
-pointer-events: none;
+pointer-events: none !important;
 z-index: 9997;
 transform: translate(-50%, -50%);
-transition: width 0.4s cubic-bezier(0.16,1,0.3,1),
-height 0.4s cubic-bezier(0.16,1,0.3,1),
-border-color 0.3s ease,
-background 0.3s ease,
-opacity 0.3s ease;
-mix-blend-mode: exclusion;
+transition: width 0.35s cubic-bezier(0.16,1,0.3,1),
+height 0.35s cubic-bezier(0.16,1,0.3,1),
+border-color 0.2s ease,
+background 0.2s ease;
 background: transparent;
+opacity: 1;
 }
 #sz-cursor-dot {
 position: fixed;
-width: 5px; height: 5px;
-background: var(–text-dark);
+width: 6px; height: 6px;
+background: #0A0A0F;
 border-radius: 50%;
 pointer-events: none;
 z-index: 9998;
 transform: translate(-50%, -50%);
-mix-blend-mode: exclusion;
 transition: opacity 0.2s;
 }
-#sz-cursor.on-link  { width: 72px; height: 72px; background: var(–text-dark); border-color: var(–text-dark); }
-#sz-cursor.on-img   { width: 80px; height: 80px; border-color: var(–cyan); border-width: 2px; }
+#sz-cursor.on-link  { width: 60px; height: 60px; background: rgba(153,69,255,0.12); border-color: #9945FF; border-width: 2px; }
+#sz-cursor.on-img   { width: 70px; height: 70px; border-color: #14F195; border-width: 2px; }
 #sz-cursor.on-btn   { width: 56px; height: 56px; background: rgba(153,69,255,0.15); border-color: var(–purple); }
 @media(hover:none){ #sz-cursor, #sz-cursor-dot { display:none; } }
 
@@ -3605,9 +3605,9 @@ Injected last so it wins every specificity battle.
 /* NAV */
 nav { background: rgba(255,255,255,0.94) !important; }
 nav.scrolled { background: #ffffff !important; box-shadow: 0 1px 40px rgba(0,0,0,0.08) !important; }
-.nav-menu a { color: #3C3C4C !important; }
+.nav-menu a { color: #5A5A72 !important; }
 .nav-menu a:hover { color: #0A0A0F !important; }
-.nav-menu a.active { color: #0A0A0F !important; }
+.nav-menu a.active { color: #fff !important; background: #0A0A0F !important; }
 .btn-connect { background: #0A0A0F !important; color: #ffffff !important; }
 .btn-connect:hover { background: #9945FF !important; }
 
@@ -6285,7 +6285,7 @@ function closeCookieBanner(){
             else if (e.target.closest('.btn-primary,.btn-secondary')) cur.classList.add('on-btn');
         });
 
-        document.body.style.cursor = 'none';
+        document.body.style.cursor = 'none'; /* custom cursor active */
     }
 
     // ═══════════════════════════════════════════════
@@ -7773,7 +7773,6 @@ nav { z-index: 1000 !important; }
 /* ── GPU PROMOTION: promote animated elements to their own compositor layer ── */
 #heroImage, #heroText, .hero-eyebrow, #heroSecondaryImg,
 #ambient-orb-1, #ambient-orb-2,
-#sz-cursor, #sz-cursor-dot,
 .mk, .px-layer-bg, .px-layer-mid, .px-layer-fg,
 .cinematic-fullwidth img, .why-panel-img-parallax-inner,
 #cartPanel, .auth-modal, .legal-modal {
