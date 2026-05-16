@@ -416,9 +416,12 @@ opacity:0.5;
 /* ── TIENDA ── */
 .tienda-grid{
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+grid-template-columns:repeat(4,1fr);
 gap:1.5rem;margin-bottom:4rem;
 }
+@media(max-width:1023px){ .tienda-grid{ grid-template-columns:repeat(3,1fr); } }
+@media(max-width:767px) { .tienda-grid{ grid-template-columns:repeat(2,1fr); } }
+@media(max-width:479px) { .tienda-grid{ grid-template-columns:1fr; } }
 .product-card{
 background:white;border:1px solid var(–border);
 border-radius:1.25rem;overflow:hidden;
@@ -4160,7 +4163,6 @@ nav img{display:block;}
 /* Tablet (640px – 1023px): 2 cols */
 @media (min-width: 640px) and (max-width: 1023px) {
     .grid { grid-template-columns: repeat(2, 1fr) !important; }
-    .tienda-grid { grid-template-columns: repeat(2, 1fr) !important; }
     .hero-content { grid-template-columns: 1fr 1fr !important; gap: 2rem !important; }
 }
 
@@ -5096,30 +5098,14 @@ const CMS = {
     <div class="cover-maori-bar"></div>
 </div>
 
-<section class="section" style="padding-top:2rem;padding-bottom:0;">
+<section class="section" style="padding-top:1.5rem;padding-bottom:1.5rem;">
     <div class="container">
-        <div style="display:flex;justify-content:flex-end;margin-bottom:1.5rem;">
-            <button onclick="showPage('guia')" style="
-                display:inline-flex;align-items:center;gap:0.5rem;
-                background:none;
-                border:1.5px solid rgba(153,69,255,0.35);
-                border-radius:2rem;
-                padding:0.5rem 1.1rem;
-                font-family:'Space Mono',monospace;
-                font-size:0.65rem;
-                letter-spacing:0.1em;
-                text-transform:uppercase;
-                color:#9945FF;
-                cursor:pointer;
-                transition:all 0.2s ease;
-                font-weight:600;
-            "
-            onmouseover="this.style.background='rgba(153,69,255,0.07)';this.style.borderColor='#9945FF';"
-            onmouseout="this.style.background='none';this.style.borderColor='rgba(153,69,255,0.35)';"
-            >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;text-align:center;">
+            <div style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:#86869A;">¿Primera vez comprando con cripto?</div>
+            <button onclick="showPage('guia')" class="btn-secondary" style="display:inline-flex;align-items:center;gap:0.6rem;padding:0.7rem 1.6rem;border-radius:2rem;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
                 Guía para comprar
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px;flex-shrink:0;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;flex-shrink:0;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </button>
         </div>
     </div>
