@@ -95,32 +95,20 @@ transition:opacity 0.2s;
 .logo-icon{width:2.2rem;height:2.2rem;display:flex;align-items:center;justify-content:center;border-radius:0.5rem;overflow:hidden;}
 .logo-icon img{width:100%;height:100%;object-fit:contain;}
 
-.nav-menu{
-display:flex;align-items:center;gap:0.15rem;list-style:none;
-background:rgba(0,0,0,0.045);
-border-radius:2rem;
-padding:0.28rem;
-border:1px solid rgba(229,229,234,0.9);
-}
+.nav-menu{display:flex;align-items:center;gap:0.25rem;list-style:none;}
 .nav-menu a{
 position:relative;
-color:#5A5A72;text-decoration:none;
-font-weight:600;font-size:0.72rem;letter-spacing:0.05em;text-transform:uppercase;
-cursor:pointer;padding:0.42rem 0.85rem;border-radius:1.5rem;
-transition:all 0.2s cubic-bezier(0.25,0.46,0.45,0.94);
-white-space:nowrap;
+color:var(–text-mid);text-decoration:none;
+font-weight:500;font-size:0.9rem;letter-spacing:0.01em;
+cursor:pointer;padding:0.5rem 0.85rem;border-radius:0.5rem;
+transition:all 0.2s;
 }
-.nav-menu a:hover{
-color:#0A0A0F;
-background:rgba(255,255,255,0.92);
-box-shadow:0 1px 8px rgba(0,0,0,0.08);
+.nav-menu a:hover{color:var(–text-dark);background:rgba(0,0,0,0.04);}
+.nav-menu a.active{color:var(–purple);}
+.nav-menu a.active::after{
+content:’’;position:absolute;bottom:2px;left:50%;transform:translateX(-50%);
+width:4px;height:4px;background:var(–purple);border-radius:50%;
 }
-.nav-menu a.active{
-color:#fff;
-background:#0A0A0F;
-box-shadow:0 2px 12px rgba(0,0,0,0.2);
-}
-.nav-menu a.active::after { display:none !important; }
 
 .btn-connect{
 display:flex;align-items:center;gap:0.4rem;
@@ -621,9 +609,16 @@ background: none !important;
 color: var(–text-mid) !important;
 position: relative;
 }
-.nav-menu a:hover { color: #0A0A0F !important; }
-.nav-menu a.active { color: #fff !important; background:#0A0A0F !important; }
-.nav-menu a.active::after { display:none !important; }
+.nav-menu a:hover { color: var(–text-dark) !important; background: none !important; }
+.nav-menu a.active { color: var(–text-dark) !important; }
+.nav-menu a.active::after {
+content: ‘’ !important; position: absolute !important;
+bottom: 0; left: 0.7rem; right: 0.7rem;
+height: 1px !important; width: auto !important;
+background: var(–text-dark) !important;
+border-radius: 0 !important;
+transform: none !important;
+}
 
 /* ── Botón conectar: minimalista, sin border-radius extremo ── */
 .btn-connect {
@@ -936,40 +931,34 @@ transform-origin: bottom;
 #sz-cursor {
 position: fixed;
 width: 44px; height: 44px;
-border: 2px solid rgba(10,10,15,0.8);
+border: 1.5px solid var(–text-dark);
 border-radius: 50%;
-pointer-events: none !important;
+pointer-events: none;
 z-index: 9997;
 transform: translate(-50%, -50%);
-transition: width 0.35s cubic-bezier(0.16,1,0.3,1),
-height 0.35s cubic-bezier(0.16,1,0.3,1),
-border-color 0.2s ease,
-background 0.2s ease;
+transition: width 0.4s cubic-bezier(0.16,1,0.3,1),
+height 0.4s cubic-bezier(0.16,1,0.3,1),
+border-color 0.3s ease,
+background 0.3s ease,
+opacity 0.3s ease;
+mix-blend-mode: exclusion;
 background: transparent;
-opacity: 1;
 }
 #sz-cursor-dot {
 position: fixed;
-width: 6px; height: 6px;
-background: #0A0A0F;
+width: 5px; height: 5px;
+background: var(–text-dark);
 border-radius: 50%;
 pointer-events: none;
 z-index: 9998;
 transform: translate(-50%, -50%);
+mix-blend-mode: exclusion;
 transition: opacity 0.2s;
 }
-#sz-cursor.on-link  { width: 60px; height: 60px; background: rgba(153,69,255,0.12); border-color: #9945FF; border-width: 2px; }
-#sz-cursor.on-img   { width: 70px; height: 70px; border-color: #14F195; border-width: 2px; }
+#sz-cursor.on-link  { width: 72px; height: 72px; background: var(–text-dark); border-color: var(–text-dark); }
+#sz-cursor.on-img   { width: 80px; height: 80px; border-color: var(–cyan); border-width: 2px; }
 #sz-cursor.on-btn   { width: 56px; height: 56px; background: rgba(153,69,255,0.15); border-color: var(–purple); }
 @media(hover:none){ #sz-cursor, #sz-cursor-dot { display:none; } }
-/* ── CURSOR SAFETY: ensure interactive elements always show pointer ── */
-@media(hover:hover){
-
-```
-a, button, [onclick], label, select, input[type=submit], .nav-link, .card {  }
-```
-
-}
 
 /* ── Reveal base ── */
 .reveal-on-scroll,
@@ -1034,7 +1023,7 @@ transition: transform 1s cubic-bezier(0.16,1,0.3,1);
 .img-distort-wrap {
 overflow: hidden;
 position: relative;
-
+cursor: crosshair;
 }
 .img-distort-wrap img {
 display: block; width: 100%;
@@ -1983,9 +1972,9 @@ Injected last so it wins every specificity battle.
 /* NAV */
 nav { background: rgba(255,255,255,0.94) !important; }
 nav.scrolled { background: #ffffff !important; box-shadow: 0 1px 40px rgba(0,0,0,0.08) !important; }
-.nav-menu a { color: #5A5A72 !important; }
+.nav-menu a { color: #3C3C4C !important; }
 .nav-menu a:hover { color: #0A0A0F !important; }
-.nav-menu a.active { color: #fff !important; background: #0A0A0F !important; }
+.nav-menu a.active { color: #0A0A0F !important; }
 .btn-connect { background: #0A0A0F !important; color: #ffffff !important; }
 .btn-connect:hover { background: #9945FF !important; }
 
@@ -2253,9 +2242,16 @@ background: none !important;
 color: var(–text-mid) !important;
 position: relative;
 }
-.nav-menu a:hover { color: #0A0A0F !important; }
-.nav-menu a.active { color: #fff !important; background:#0A0A0F !important; }
-.nav-menu a.active::after { display:none !important; }
+.nav-menu a:hover { color: var(–text-dark) !important; background: none !important; }
+.nav-menu a.active { color: var(–text-dark) !important; }
+.nav-menu a.active::after {
+content: ‘’ !important; position: absolute !important;
+bottom: 0; left: 0.7rem; right: 0.7rem;
+height: 1px !important; width: auto !important;
+background: var(–text-dark) !important;
+border-radius: 0 !important;
+transform: none !important;
+}
 
 /* ── Botón conectar: minimalista, sin border-radius extremo ── */
 .btn-connect {
@@ -2568,30 +2564,32 @@ transform-origin: bottom;
 #sz-cursor {
 position: fixed;
 width: 44px; height: 44px;
-border: 2px solid rgba(10,10,15,0.8);
+border: 1.5px solid var(–text-dark);
 border-radius: 50%;
-pointer-events: none !important;
+pointer-events: none;
 z-index: 9997;
 transform: translate(-50%, -50%);
-transition: width 0.35s cubic-bezier(0.16,1,0.3,1),
-height 0.35s cubic-bezier(0.16,1,0.3,1),
-border-color 0.2s ease,
-background 0.2s ease;
+transition: width 0.4s cubic-bezier(0.16,1,0.3,1),
+height 0.4s cubic-bezier(0.16,1,0.3,1),
+border-color 0.3s ease,
+background 0.3s ease,
+opacity 0.3s ease;
+mix-blend-mode: exclusion;
 background: transparent;
-opacity: 1;
 }
 #sz-cursor-dot {
 position: fixed;
-width: 6px; height: 6px;
-background: #0A0A0F;
+width: 5px; height: 5px;
+background: var(–text-dark);
 border-radius: 50%;
 pointer-events: none;
 z-index: 9998;
 transform: translate(-50%, -50%);
+mix-blend-mode: exclusion;
 transition: opacity 0.2s;
 }
-#sz-cursor.on-link  { width: 60px; height: 60px; background: rgba(153,69,255,0.12); border-color: #9945FF; border-width: 2px; }
-#sz-cursor.on-img   { width: 70px; height: 70px; border-color: #14F195; border-width: 2px; }
+#sz-cursor.on-link  { width: 72px; height: 72px; background: var(–text-dark); border-color: var(–text-dark); }
+#sz-cursor.on-img   { width: 80px; height: 80px; border-color: var(–cyan); border-width: 2px; }
 #sz-cursor.on-btn   { width: 56px; height: 56px; background: rgba(153,69,255,0.15); border-color: var(–purple); }
 @media(hover:none){ #sz-cursor, #sz-cursor-dot { display:none; } }
 
@@ -2658,7 +2656,7 @@ transition: transform 1s cubic-bezier(0.16,1,0.3,1);
 .img-distort-wrap {
 overflow: hidden;
 position: relative;
-
+cursor: crosshair;
 }
 .img-distort-wrap img {
 display: block; width: 100%;
@@ -3607,9 +3605,9 @@ Injected last so it wins every specificity battle.
 /* NAV */
 nav { background: rgba(255,255,255,0.94) !important; }
 nav.scrolled { background: #ffffff !important; box-shadow: 0 1px 40px rgba(0,0,0,0.08) !important; }
-.nav-menu a { color: #5A5A72 !important; }
+.nav-menu a { color: #3C3C4C !important; }
 .nav-menu a:hover { color: #0A0A0F !important; }
-.nav-menu a.active { color: #fff !important; background: #0A0A0F !important; }
+.nav-menu a.active { color: #0A0A0F !important; }
 .btn-connect { background: #0A0A0F !important; color: #ffffff !important; }
 .btn-connect:hover { background: #9945FF !important; }
 
@@ -4009,6 +4007,192 @@ color: var(–text-dark);
 .hero-image{aspect-ratio:4/5;background:#f2f2f7;}
 .product-image{aspect-ratio:1/1;background:#f2f2f7;}
 nav img{display:block;}
+/* mobile wallet CSS moved to #maonya-fixes */
+
+/* Nav pill styles moved to #maonya-fixes */
+
+
+/* ── Auth button ── */
+.btn-auth {
+    background: none;
+    border: 1.5px solid #E5E5EA;
+    cursor: pointer;
+    padding: 0.5rem 0.85rem;
+    color: #0A0A0F;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 0.35rem;
+    transition: all 0.2s;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+.btn-auth:hover { background: rgba(0,0,0,0.04); border-color: #0A0A0F; }
+.btn-auth.logged-in { background: rgba(153,69,255,0.08); border-color: rgba(153,69,255,0.3); color: #9945FF; }
+@media(max-width:768px){ .btn-auth .auth-label { display: none; } }
+
+/* ── User dropdown ── */
+.user-menu-wrap { position: relative; }
+.user-dropdown {
+    position: absolute; top: calc(100% + 8px); right: 0;
+    background: #fff; border: 1px solid #E5E5EA; border-radius: 0.5rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12); min-width: 200px;
+    display: none; z-index: 5000; overflow: hidden;
+}
+.user-dropdown.open { display: block; }
+.user-dropdown-header { padding: 0.9rem 1.1rem; border-bottom: 1px solid #E5E5EA; }
+.user-dropdown-name  { font-weight: 700; font-size: 0.85rem; color: #0A0A0F; }
+.user-dropdown-email { font-family: 'Space Mono',monospace; font-size: 0.62rem; color: #86869A; margin-top: 0.2rem; }
+.user-dropdown-item {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.7rem 1.1rem; cursor: pointer; font-size: 0.82rem; color: #3C3C4C;
+    transition: background 0.15s; border: none; background: none; width: 100%;
+    text-align: left; font-family: 'Syne',sans-serif; font-weight: 500;
+}
+.user-dropdown-item:hover { background: #F8F7FF; color: #0A0A0F; }
+.user-dropdown-item.danger { color: #DC2626; }
+.user-dropdown-item.danger:hover { background: #FFF5F5; }
+
+/* ── Auth overlay ── */
+.auth-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(10,10,15,0.65); z-index: 4000;
+    align-items: center; justify-content: center; padding: 1rem;
+}
+.auth-overlay.active { display: flex; }
+.auth-modal {
+    background: #fff; border-radius: 0.75rem;
+    width: 100%; max-width: 440px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.2); position: relative;
+}
+.auth-modal-header { padding: 2rem 2rem 0; display: flex; align-items: flex-start; justify-content: space-between; }
+.auth-modal-header h2 { font-family: 'Bebas Neue',sans-serif; font-size: 2rem; letter-spacing: 0.04em; color: #0A0A0F; line-height: 1; }
+.auth-eyebrow { font-family: 'Space Mono',monospace; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: #9945FF; margin-bottom: 0.35rem; }
+.auth-modal-close {
+    background: #F2F2F7; border: none; width: 2.25rem; height: 2.25rem;
+    border-radius: 50%; font-size: 1rem; cursor: pointer; color: #3C3C4C;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.auth-modal-close:hover { background: #E5E5EA; }
+.auth-modal-body { padding: 1.5rem 2rem 2rem; }
+.auth-tabs { display: flex; border-bottom: 1px solid #E5E5EA; margin-bottom: 1.5rem; }
+.auth-tab {
+    padding: 0.6rem 1.25rem; background: none; border: none;
+    font-family: 'Space Mono',monospace; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer;
+    color: #86869A; border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.auth-tab.active { color: #0A0A0F; border-bottom-color: #0A0A0F; }
+.auth-form { display: none; }
+.auth-form.active { display: block; }
+.auth-field { margin-bottom: 1rem; }
+.auth-field label { display: block; font-family: 'Space Mono',monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: #86869A; margin-bottom: 0.4rem; }
+.auth-field input { width: 100%; padding: 0.75rem 0.9rem; border: 1.5px solid #E5E5EA; border-radius: 0.35rem; font-family: 'Syne',sans-serif; font-size: 0.9rem; color: #0A0A0F; outline: none; box-sizing: border-box; }
+.auth-field input:focus { border-color: #9945FF; box-shadow: 0 0 0 3px rgba(153,69,255,0.08); }
+.auth-submit { width: 100%; padding: 0.9rem; margin-top: 0.5rem; background: #0A0A0F; color: #fff; border: none; border-radius: 0.35rem; font-family: 'Syne',sans-serif; font-weight: 700; font-size: 0.82rem; letter-spacing: 0.07em; text-transform: uppercase; cursor: pointer; }
+.auth-submit:hover { background: #9945FF; }
+.auth-msg { font-size: 0.78rem; min-height: 1.2rem; margin-top: 0.75rem; text-align: center; }
+.auth-msg.success { color: #059669; }
+.auth-msg.error   { color: #DC2626; }
+.auth-switch { text-align: center; margin-top: 1rem; font-size: 0.8rem; color: #86869A; }
+.auth-switch a { color: #9945FF; cursor: pointer; font-weight: 600; text-decoration: underline; }
+
+</style>
+
+<style id="maonya-fixes">
+/* ══════════════════════════════════════════════════
+   MAONYA FIXES — injected last, wins all specificity
+   ══════════════════════════════════════════════════ */
+
+/* ── 1. HAMBURGER: always visible on mobile, hidden on desktop ── */
+@media (min-width: 769px) {
+    .hamburger { display: none !important; }
+    .nav-menu  { display: flex !important; }
+}
+@media (max-width: 768px) {
+    .hamburger { display: flex !important; }
+    .nav-menu  { display: none !important; }
+}
+
+/* ── 2. NAV PILLS: pill-container with individual pill items ── */
+@media (min-width: 769px) {
+    .nav-menu {
+        align-items: center !important;
+        gap: 0.1rem !important;
+        background: rgba(0,0,0,0.04) !important;
+        border-radius: 2rem !important;
+        padding: 0.25rem !important;
+        border: 1px solid rgba(229,229,234,0.9) !important;
+        list-style: none !important;
+    }
+    .nav-menu a {
+        padding: 0.38rem 0.8rem !important;
+        border-radius: 1.5rem !important;
+        font-size: 0.71rem !important;
+        letter-spacing: 0.05em !important;
+        text-transform: uppercase !important;
+        font-weight: 600 !important;
+        white-space: nowrap !important;
+        color: #5A5A72 !important;
+        background: transparent !important;
+        transition: all 0.2s ease !important;
+        border: none !important;
+        text-decoration: none !important;
+    }
+    .nav-menu a::after { display: none !important; }
+    .nav-menu a:hover {
+        color: #0A0A0F !important;
+        background: rgba(255,255,255,0.92) !important;
+        box-shadow: 0 1px 6px rgba(0,0,0,0.08) !important;
+    }
+    .nav-menu a.active {
+        color: #ffffff !important;
+        background: #0A0A0F !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.18) !important;
+    }
+}
+
+/* ── 3. RESPONSIVE LAYOUT ── */
+
+/* Tablet (640px – 1023px): 2 cols */
+@media (min-width: 640px) and (max-width: 1023px) {
+    .grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .tienda-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .hero-content { grid-template-columns: 1fr 1fr !important; gap: 2rem !important; }
+}
+
+/* Desktop (1024px+): 4 cols */
+@media (min-width: 1024px) {
+    .grid { grid-template-columns: repeat(4, 1fr) !important; }
+}
+
+/* Mobile (≤768px): 1 col, adjustments */
+@media (max-width: 768px) {
+    /* Navbar right side: compact */
+    .navbar-container > div:last-child { gap: 0.4rem !important; }
+    #walletBtnText { display: none !important; }
+    .btn-connect   { padding: 0.5rem 0.6rem !important; gap: 0 !important; }
+    /* Auth label hidden on mobile */
+    .btn-auth .auth-label { display: none !important; }
+    /* Sections */
+    .section { padding: 3rem 0 !important; }
+    .hero-text h1 { font-size: clamp(2.8rem, 11vw, 4rem) !important; }
+}
+
+/* ── 4. CART PANEL above overlay ── */
+#cartOverlay { z-index: 3500 !important; }
+#cartPanel   { z-index: 3600 !important; }
+
+/* ── 5. AUTH MODAL above cart ── */
+.auth-overlay { z-index: 4000 !important; }
+
+/* ── 6. CUSTOM CURSOR: disabled ── */
+#sz-cursor, #sz-cursor-dot { display: none !important; }
+.img-distort-wrap { cursor: crosshair !important; }
+
 </style>
 
 </head>
@@ -4278,7 +4462,7 @@ const CMS = {
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;display:block"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
                 <span class="cart-badge" id="cartBadge">0</span>
             </button>
-            <div class="user-menu-wrap" id="userMenuWrap">
+            <div class="user-menu-wrap">
                 <button class="btn-auth" id="authBtn" onclick="openAuthModal('login')">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;flex-shrink:0"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/></svg>
                     <span class="auth-label">Acceder</span>
@@ -4291,24 +4475,15 @@ const CMS = {
                     <button class="user-dropdown-item" onclick="showPage('tienda');closeUserDropdown()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>Mis Pedidos
                     </button>
-                    <button class="user-dropdown-item" onclick="openAuthModal('profile')">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/></svg>Mi Perfil
-                    </button>
                     <button class="user-dropdown-item danger" onclick="logoutUser()">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Cerrar Sesión
                     </button>
                 </div>
             </div>
             <button class="btn-connect" id="walletBtn" onclick="connectWallet()">
-                <!-- Solana logo oficial -->
-                <svg class="icon-svg" viewBox="0 0 397 311" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;flex-shrink:0;">
-                  <defs>
-                    <linearGradient id="sol-a" x1="360" y1="35" x2="57" y2="338" gradientUnits="userSpaceOnUse">
-                      <stop offset="0%" stop-color="#9945FF"/>
-                      <stop offset="100%" stop-color="#14F195"/>
-                    </linearGradient>
-                  </defs>
-                  <path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7zM64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1L333.1 73.8c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8zM333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z" fill="url(#sol-a)"/>
+                <svg viewBox="0 0 397 311" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;flex-shrink:0;display:block;">
+                  <defs><linearGradient id="solG" x1="360" y1="35" x2="57" y2="338" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#9945FF"/><stop offset="100%" stop-color="#14F195"/></linearGradient></defs>
+                  <path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7zM64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1L333.1 73.8c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8zM333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z" fill="url(#solG)"/>
                 </svg>
                 <span id="walletBtnText">Conectar</span>
             </button>
@@ -4326,7 +4501,7 @@ const CMS = {
     <a onclick="showPageMobile('phygital')" class="nav-link">Moda Phygital</a>
     <a onclick="showPageMobile('guia')" class="nav-link">Guía Cripto</a>
     <a onclick="showPageMobile('about')" class="nav-link">Sobre Nosotros</a>
-    <a id="mobileAuthLink" onclick="mobileAuthAction()" class="nav-link" style="font-size:1.1rem!important;">Acceder / Registrarse</a>
+    <a id="mobileAuthLink" onclick="mobileAuthAction()" class="nav-link">Acceder / Registrarse</a>
 </div>
 
 <!-- ═══════════ CART PANEL ═══════════ -->
@@ -4389,274 +4564,9 @@ const CMS = {
 
 /* Cart msg in modal */
 #cartMsg{font-size:0.8rem;min-height:1.2rem;margin-bottom:0.5rem;}
-
-/* ── AUTH BUTTON ── */
-.btn-auth{
-    position:relative;background:none;border:1.5px solid #E5E5EA;cursor:pointer;
-    padding:0.5rem 0.85rem;color:#0A0A0F;display:flex;align-items:center;gap:0.4rem;
-    border-radius:0.35rem;transition:all 0.2s;font-family:'Syne',sans-serif;
-    font-size:0.78rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;
-}
-.btn-auth:hover{background:rgba(0,0,0,0.04);border-color:#0A0A0F;}
-.btn-auth.logged-in{background:rgba(153,69,255,0.08);border-color:rgba(153,69,255,0.3);color:#9945FF;}
-.btn-auth.logged-in:hover{background:rgba(153,69,255,0.14);}
-@media(max-width:768px){
-    .btn-auth span.auth-label{display:none;}
-    /* Wallet button: icon only on mobile */
-    .btn-connect #walletBtnText{display:none;}
-    .btn-connect{padding:0.5rem 0.55rem!important;gap:0!important;}
-    /* Tighten right-side nav gap */
-    .navbar-container > div:last-child{gap:0.35rem!important;}
-}
-
-/* ── AUTH MODAL ── */
-.auth-overlay{
-    display:none;position:fixed;inset:0;
-    background:rgba(10,10,15,0.65);z-index:4000;
-    align-items:center;justify-content:center;padding:1rem;
-}
-.auth-overlay.active{display:flex;animation:fadeIn 0.25s ease;}
-.auth-modal{
-    background:#fff;border-radius:0.75rem;
-    width:100%;max-width:440px;
-    animation:modalIn 0.35s cubic-bezier(0.23,1,0.32,1);
-    box-shadow:0 30px 80px rgba(0,0,0,0.2);
-    position:relative;overflow:hidden;
-}
-.auth-modal-header{
-    padding:2rem 2rem 0;
-    display:flex;align-items:flex-start;justify-content:space-between;
-}
-.auth-modal-header h2{
-    font-family:'Bebas Neue',sans-serif;font-size:2rem;
-    letter-spacing:0.04em;color:#0A0A0F;line-height:1;
-}
-.auth-modal-eyebrow{
-    font-family:'Space Mono',monospace;font-size:0.62rem;
-    letter-spacing:0.14em;text-transform:uppercase;color:#9945FF;margin-bottom:0.35rem;
-}
-.auth-modal-close{
-    background:#F2F2F7;border:none;width:2.25rem;height:2.25rem;
-    border-radius:50%;font-size:1rem;cursor:pointer;color:#3C3C4C;
-    transition:all 0.2s;flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;
-}
-.auth-modal-close:hover{background:#E5E5EA;color:#0A0A0F;}
-.auth-modal-body{padding:1.5rem 2rem 2rem;}
-.auth-tabs{
-    display:flex;gap:0;margin-bottom:1.75rem;
-    border-bottom:1px solid #E5E5EA;
-}
-.auth-tab{
-    padding:0.6rem 1.25rem;background:none;border:none;
-    font-family:'Space Mono',monospace;font-size:0.65rem;
-    letter-spacing:0.12em;text-transform:uppercase;
-    cursor:pointer;color:#86869A;border-bottom:2px solid transparent;
-    margin-bottom:-1px;transition:all 0.2s;
-}
-.auth-tab.active{color:#0A0A0F;border-bottom-color:#0A0A0F;}
-.auth-tab:hover:not(.active){color:#3C3C4C;}
-.auth-form{display:none;}
-.auth-form.active{display:block;}
-.auth-field{margin-bottom:1.1rem;}
-.auth-field label{
-    display:block;font-family:'Space Mono',monospace;
-    font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;
-    color:#86869A;margin-bottom:0.45rem;
-}
-.auth-field input{
-    width:100%;padding:0.75rem 0.9rem;
-    border:1.5px solid #E5E5EA;border-radius:0.35rem;
-    font-family:'Syne',sans-serif;font-size:0.9rem;
-    color:#0A0A0F;background:#fff;outline:none;
-    transition:border-color 0.2s;
-}
-.auth-field input:focus{border-color:#9945FF;box-shadow:0 0 0 3px rgba(153,69,255,0.08);}
-.auth-field input::placeholder{color:#C7C7CC;}
-.auth-submit{
-    width:100%;padding:0.9rem;margin-top:0.5rem;
-    background:#0A0A0F;color:#fff;border:none;
-    border-radius:0.35rem;font-family:'Syne',sans-serif;
-    font-weight:700;font-size:0.82rem;letter-spacing:0.07em;
-    text-transform:uppercase;cursor:pointer;transition:all 0.25s;
-}
-.auth-submit:hover{background:#9945FF;transform:translateY(-1px);}
-.auth-divider{
-    display:flex;align-items:center;gap:0.75rem;margin:1.1rem 0;
-    font-family:'Space Mono',monospace;font-size:0.6rem;
-    letter-spacing:0.1em;color:#C7C7CC;text-transform:uppercase;
-}
-.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:#E5E5EA;}
-.auth-social-row{display:flex;gap:0.6rem;}
-.auth-social-btn{
-    flex:1;padding:0.65rem;border:1.5px solid #E5E5EA;
-    border-radius:0.35rem;background:#fff;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;gap:0.45rem;
-    font-family:'Syne',sans-serif;font-size:0.75rem;font-weight:600;
-    color:#3C3C4C;transition:all 0.2s;
-}
-.auth-social-btn:hover{border-color:#0A0A0F;background:#F8F7FF;}
-.auth-msg{
-    font-size:0.78rem;min-height:1.2rem;margin-top:0.75rem;
-    text-align:center;letter-spacing:0.02em;
-}
-.auth-msg.success{color:#059669;}
-.auth-msg.error{color:#DC2626;}
-.auth-switch{
-    text-align:center;margin-top:1rem;
-    font-size:0.8rem;color:#86869A;
-}
-.auth-switch a{color:#9945FF;cursor:pointer;font-weight:600;text-decoration:underline;}
-
-/* User menu dropdown */
-.user-menu-wrap{position:relative;}
-.user-dropdown{
-    position:absolute;top:calc(100% + 8px);right:0;
-    background:#fff;border:1px solid #E5E5EA;border-radius:0.5rem;
-    box-shadow:0 8px 32px rgba(0,0,0,0.12);min-width:200px;
-    display:none;z-index:5000;animation:slideDown 0.2s ease;
-    overflow:hidden;
-}
-.user-dropdown.open{display:block;}
-.user-dropdown-header{
-    padding:0.9rem 1.1rem;border-bottom:1px solid #E5E5EA;
-}
-.user-dropdown-name{
-    font-weight:700;font-size:0.85rem;color:#0A0A0F;
-}
-.user-dropdown-email{
-    font-family:'Space Mono',monospace;font-size:0.62rem;
-    color:#86869A;letter-spacing:0.04em;margin-top:0.2rem;
-}
-.user-dropdown-item{
-    display:flex;align-items:center;gap:0.6rem;
-    padding:0.7rem 1.1rem;cursor:pointer;
-    font-size:0.82rem;color:#3C3C4C;transition:background 0.15s;
-    border:none;background:none;width:100%;text-align:left;
-    font-family:'Syne',sans-serif;font-weight:500;
-}
-.user-dropdown-item:hover{background:#F8F7FF;color:#0A0A0F;}
-.user-dropdown-item.danger{color:#DC2626;}
-.user-dropdown-item.danger:hover{background:#FFF5F5;}
-
-/* ── RESPONSIVE IMPROVEMENTS ── */
-@media(max-width:480px){
-    .navbar-container{padding:0 1rem;}
-    .hero-text h1{font-size:clamp(2.8rem,12vw,4rem);}
-    .section{padding:3rem 0;}
-    .cta{padding:2.5rem 1.5rem!important;}
-    .modal{padding:1.5rem!important;}
-    .auth-modal-header,.auth-modal-body{padding:1.25rem 1.25rem;}
-    .auth-modal-header{padding-bottom:0;}
-    .auth-social-row{flex-direction:column;}
-}
-@media(min-width:769px) and (max-width:1023px){
-    .hero-content{grid-template-columns:1fr 1fr;gap:2rem;}
-    .grid{grid-template-columns:repeat(2,1fr);}
-    .tienda-grid{grid-template-columns:repeat(3,1fr);}
-}
-@media(min-width:1024px){
-    .grid{grid-template-columns:repeat(4,1fr);}
-    .tienda-grid{grid-template-columns:repeat(4,1fr);}
-}
-/* Prevent 3-card orphan on medium screens — force 2+2 */
-@media(min-width:640px) and (max-width:1023px){
-    .grid:not(.tienda-grid){grid-template-columns:repeat(2,1fr);}
-}
 </style>
 
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-
-<!-- ═══════════ AUTH MODAL ═══════════ -->
-
-<div class="auth-overlay" id="authOverlay" onclick="if(event.target===this)closeAuthModal()">
-    <div class="auth-modal">
-        <div class="auth-modal-header">
-            <div>
-                <div class="auth-modal-eyebrow">MAONYA · Cuenta</div>
-                <h2 id="authModalTitle">Acceder</h2>
-            </div>
-            <button class="auth-modal-close" onclick="closeAuthModal()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-        </div>
-        <div class="auth-modal-body">
-            <div class="auth-tabs">
-                <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Iniciar Sesión</button>
-                <button class="auth-tab" id="tabRegister" onclick="switchAuthTab('register')">Registrarse</button>
-            </div>
-
-```
-        <!-- LOGIN FORM -->
-        <div class="auth-form active" id="formLogin">
-            <div class="auth-field">
-                <label>Correo electrónico</label>
-                <input type="email" id="loginEmail" placeholder="tu@email.com" autocomplete="email">
-            </div>
-            <div class="auth-field">
-                <label>Contraseña</label>
-                <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
-            </div>
-            <button class="auth-submit" onclick="handleLogin()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:6px;"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
-                Iniciar Sesión
-            </button>
-            <div class="auth-divider">o continúa con</div>
-            <div class="auth-social-row">
-                <button class="auth-social-btn" onclick="handleSocialAuth('Google')">
-                    <svg viewBox="0 0 24 24" width="15" height="15"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                    Google
-                </button>
-                <button class="auth-social-btn" onclick="handleSocialAuth('Apple')">
-                    <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.42c1.39.07 2.36.74 3.17.8 1.21-.24 2.37-.93 3.67-.84 1.55.12 2.72.72 3.5 1.9-3.22 1.93-2.74 6.17.66 7.37-.52 1.42-1.19 2.83-3 3.63zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-                    Apple
-                </button>
-            </div>
-            <div class="auth-msg" id="loginMsg"></div>
-            <div class="auth-switch">¿No tienes cuenta? <a onclick="switchAuthTab('register')">Regístrate gratis</a></div>
-        </div>
-
-        <!-- REGISTER FORM -->
-        <div class="auth-form" id="formRegister">
-            <div class="auth-field">
-                <label>Nombre completo</label>
-                <input type="text" id="regName" placeholder="Tu nombre" autocomplete="name">
-            </div>
-            <div class="auth-field">
-                <label>Correo electrónico</label>
-                <input type="email" id="regEmail" placeholder="tu@email.com" autocomplete="email">
-            </div>
-            <div class="auth-field">
-                <label>Contraseña</label>
-                <input type="password" id="regPassword" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
-            </div>
-            <div class="auth-field">
-                <label>Confirmar contraseña</label>
-                <input type="password" id="regPassword2" placeholder="Repite tu contraseña" autocomplete="new-password">
-            </div>
-            <button class="auth-submit" onclick="handleRegister()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:6px;"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8zM20 8v6M23 11h-6"/></svg>
-                Crear Cuenta
-            </button>
-            <div class="auth-divider">o regístrate con</div>
-            <div class="auth-social-row">
-                <button class="auth-social-btn" onclick="handleSocialAuth('Google')">
-                    <svg viewBox="0 0 24 24" width="15" height="15"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                    Google
-                </button>
-                <button class="auth-social-btn" onclick="handleSocialAuth('Apple')">
-                    <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.7 9.05 7.42c1.39.07 2.36.74 3.17.8 1.21-.24 2.37-.93 3.67-.84 1.55.12 2.72.72 3.5 1.9-3.22 1.93-2.74 6.17.66 7.37-.52 1.42-1.19 2.83-3 3.63zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
-                    Apple
-                </button>
-            </div>
-            <div class="auth-msg" id="registerMsg"></div>
-            <div class="auth-switch">¿Ya tienes cuenta? <a onclick="switchAuthTab('login')">Inicia sesión</a></div>
-        </div>
-    </div>
-</div>
-```
-
-</div>
 
 <!-- ═══════════════ COOKIE BANNER ═══════════════ -->
 
@@ -5283,15 +5193,12 @@ const CMS = {
                 <p>Vende en Magic Eden, Tensor o Solanart.</p>
             </div>
             <div class="card reveal-on-scroll" style="transition-delay:0.3s">
-                <div class="card-icon" style="background:linear-gradient(135deg,rgba(153,69,255,0.10),rgba(20,241,149,0.10))!important;">
-                  <!-- Royalties: moneda con porcentaje y flecha de retorno -->
-                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:45px;height:45px;">
-                    <circle cx="24" cy="24" r="16" stroke="#9945FF" stroke-width="2.2" fill="rgba(153,69,255,0.05)"/>
+                <div class="card-icon">
+                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;">
+                    <circle cx="24" cy="24" r="16" stroke="#9945FF" stroke-width="2.2" fill="rgba(153,69,255,0.06)"/>
                     <path d="M18 28c0 2.2 2.7 4 6 4s6-1.8 6-4-2.7-4-6-4-6-1.8-6-4 2.7-4 6-4 6 1.8 6 4" stroke="#14F195" stroke-width="2" stroke-linecap="round"/>
                     <line x1="24" y1="16" x2="24" y2="14" stroke="#9945FF" stroke-width="2" stroke-linecap="round"/>
                     <line x1="24" y1="34" x2="24" y2="36" stroke="#14F195" stroke-width="2" stroke-linecap="round"/>
-                    <path d="M36 10 C40 14 42 20 40 28" stroke="#9945FF" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="2 2" opacity="0.5"/>
-                    <polyline points="37,26 40,28 38,31" stroke="#9945FF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
                   </svg>
                 </div>
                 <h3>Royalties Perpetuos</h3>
@@ -5393,20 +5300,17 @@ const CMS = {
                 <p>Tu identidad phygital en ambos mundos.</p>
             </div>
             <div class="card reveal-on-scroll" style="transition-delay:0.3s">
-                <div class="card-icon" style="background:linear-gradient(135deg,rgba(20,241,149,0.10),rgba(153,69,255,0.08))!important;">
-                  <!-- Exclusividad: estrella de 5 puntas + brillo -->
-                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:45px;height:45px;">
-                    <path d="M24 6l4.5 9.1 10.1 1.5-7.3 7.1 1.7 10-9-4.7-9 4.7 1.7-10L9.4 16.6l10.1-1.5z"
-                          stroke="#9945FF" stroke-width="2.2" stroke-linejoin="round" fill="rgba(153,69,255,0.08)"/>
-                    <circle cx="24" cy="22" r="3.5" fill="#14F195" opacity="0.8"/>
-                    <path d="M24 6 v-3M41 16l2-2M7 16l-2-2" stroke="#14F195" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+                <div class="card-icon">
+                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;">
+                    <path d="M24 6l4.5 9.1 10.1 1.5-7.3 7.1 1.7 10-9-4.7-9 4.7 1.7-10-7.3-7.1 10.1-1.5z" stroke="#9945FF" stroke-width="2.2" stroke-linejoin="round" fill="rgba(153,69,255,0.08)"/>
+                    <circle cx="24" cy="22" r="3" fill="#14F195" opacity="0.9"/>
                   </svg>
                 </div>
                 <h3>Edición Exclusiva</h3>
                 <p>Cada diseño phygital es único y limitado. Colecciona historia de la moda digital.</p>
             </div>
         </div>
-        <div class="cta mt-4 reveal-on-scroll"><h2>Beneficios Phygital</h2><p>Moda en ambos mundos.</p><button class="btn-primary" onclick="showPage('tienda')"><svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg> Explorar Tienda</button></div>
+        <div class="cta mt-4 reveal-on-scroll"><h2>Beneficios Phygital</h2><p>Moda en ambos mundos.</p></div>
     </div>
 </section>
 
@@ -5514,14 +5418,11 @@ const CMS = {
                 <p>Construyendo la moda del mañana.</p>
             </div>
             <div class="card reveal-on-scroll" style="transition-delay:0.3s">
-                <div class="card-icon" style="background:linear-gradient(135deg,rgba(153,69,255,0.09),rgba(20,241,149,0.09))!important;">
-                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:45px;height:45px;">
+                <div class="card-icon">
+                  <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;">
                     <circle cx="24" cy="22" r="12" stroke="#9945FF" stroke-width="2.2" fill="rgba(153,69,255,0.06)"/>
                     <path d="M18 22l4 4 8-8" stroke="#14F195" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M24 34v6M17 37l3-5M31 37l-3-5" stroke="#9945FF" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
-                    <circle cx="17" cy="38" r="2" fill="#14F195" opacity="0.6"/>
-                    <circle cx="31" cy="38" r="2" fill="#9945FF" opacity="0.6"/>
-                    <circle cx="24" cy="41" r="2" fill="#14F195" opacity="0.6"/>
+                    <path d="M24 34v6M17 38l3-4M31 38l-3-4" stroke="#9945FF" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
                   </svg>
                 </div>
                 <h3>Compromiso</h3>
@@ -5567,16 +5468,14 @@ const CMS = {
         <p>Ecosistema vibrante.</p>
     </div>
     <div class="card reveal-on-scroll" style="transition-delay:0.3s">
-        <div class="card-icon" style="background:linear-gradient(135deg,rgba(153,69,255,0.08),rgba(20,241,149,0.12))!important;">
-          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:45px;height:45px;">
-            <path d="M8 36 L12 28 L20 32 L24 20 L32 24 L38 12" stroke="#14F195" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <div class="card-icon">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;">
+            <path d="M8 36L14 26l10 6 8-14 8 18" stroke="#14F195" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
             <circle cx="38" cy="12" r="3" fill="#9945FF"/>
-            <circle cx="24" cy="20" r="2.5" fill="#14F195" opacity="0.7"/>
-            <path d="M8 36h32" stroke="#9945FF" stroke-width="1.4" stroke-linecap="round" opacity="0.3" stroke-dasharray="3 3"/>
           </svg>
         </div>
         <h3>Escalabilidad</h3>
-        <p>Infraestructura de nivel mundial preparada para millones de transacciones.</p>
+        <p>Infraestructura preparada para millones de transacciones con costes mínimos.</p>
     </div>
 </div>
 
@@ -5858,9 +5757,7 @@ function renderCartPanel() {
                     <div style="font-family:'Space Mono',monospace;font-size:0.75rem;color:#86869A;display:flex;align-items:center;gap:5px;"><span style="width:6px;height:6px;border-radius:50%;background:#14F195;display:inline-block;animation:pulse 1.5s infinite;"></span>≈ ${totalSOL} SOL</div>
                 </div>
             </div>
-            <button class="btn-checkout" onclick="checkout()">
-                ${walletAddress ? '🚀 Pagar con Phantom' : currentUser ? '✓ Finalizar Compra' : '🛒 Finalizar Compra'}
-            </button>
+            <button class="btn-checkout" onclick="checkout()">${walletAddress ? '🚀 Pagar con Phantom' : '🔗 Conectar Wallet para Pagar'}</button>
             <button class="btn-clear-cart" onclick="clearCart()">Vaciar carrito</button>`;
     }
 }
@@ -5868,6 +5765,18 @@ function renderCartPanel() {
 function clearCart() {
     if (!confirm('¿Vaciar el carrito?')) return;
     cart = []; saveCart(); updateCartBadge(); renderCartPanel();
+}
+
+function checkout() {
+    if (cart.length === 0) return;
+    const total = cart.reduce((s, i) => s + i.precioEUR * i.qty, 0);
+    const totalSOL = convertirEURaSOL ? convertirEURaSOL(total) : (total * 0.004).toFixed(3);
+    if (walletAddress) {
+        alert("🚀 Pagar con Phantom\n\nWallet: " + walletAddress.slice(0,6) + "..." + walletAddress.slice(-4) + "\nTotal: " + total.toFixed(2) + " € · ≈ " + totalSOL + " SOL\n\nEn producción se firmaría la transacción en Solana.");
+    } else {
+        const ok = confirm("Total: " + total.toFixed(2) + " €\n\n¿Confirmar pedido?\n(Conecta Phantom para pagar con SOL)");
+        if (ok) { cart = []; saveCart(); updateCartBadge(); renderCartPanel(); closeCart(); }
+    }
 }
 
 // Init cart badge on load
@@ -6235,25 +6144,19 @@ function closeCookieBanner(){
     let o2x = window.innerWidth * 0.7, o2y = window.innerHeight * 0.6;
     let mx  = o1x, my = o1y;
 
+    function tickOrbs() {
+        o1x = lerp(o1x, mx,        0.028);
+        o1y = lerp(o1y, my,        0.028);
+        o2x = lerp(o2x, mx + 200,  0.018);
+        o2y = lerp(o2y, my - 100,  0.018);
+        if (orb1) { orb1.style.left = (o1x - 300) + 'px'; orb1.style.top = (o1y - 300) + 'px'; }
+        if (orb2) { orb2.style.left = (o2x - 250) + 'px'; orb2.style.top = (o2y - 250) + 'px'; }
+        requestAnimationFrame(tickOrbs);
+    }
+
     if(window.matchMedia('(hover:hover)').matches&&window.innerWidth>1024){
         document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
-        // Throttle orbs: only run RAF when mouse has moved, stop when idle
-        let orbRafId, orbDirty = false;
-        function tickOrbsThrottled(){
-            o1x = lerp(o1x, mx,        0.028);
-            o1y = lerp(o1y, my,        0.028);
-            o2x = lerp(o2x, mx + 200,  0.018);
-            o2y = lerp(o2y, my - 100,  0.018);
-            if (orb1) { orb1.style.left = (o1x - 300) + 'px'; orb1.style.top = (o1y - 300) + 'px'; }
-            if (orb2) { orb2.style.left = (o2x - 250) + 'px'; orb2.style.top = (o2y - 250) + 'px'; }
-            const d1 = Math.abs(o1x-mx)+Math.abs(o1y-my);
-            const d2 = Math.abs(o2x-(mx+200))+Math.abs(o2y-(my-100));
-            if(d1 > 0.5 || d2 > 0.5) orbRafId = requestAnimationFrame(tickOrbsThrottled);
-            else orbDirty = false;
-        }
-        document.addEventListener('mousemove', ()=>{
-            if(!orbDirty){ orbDirty=true; orbRafId=requestAnimationFrame(tickOrbsThrottled); }
-        }, {passive:true});
+        tickOrbs();
     }else{if(orb1)orb1.style.display='none';if(orb2)orb2.style.display='none';}
 
     // ═══════════════════════════════════════════════
@@ -6264,19 +6167,17 @@ function closeCookieBanner(){
     let cx = window.innerWidth/2, cy = window.innerHeight/2;
     let rx = cx, ry = cy;
 
-    if (false) { // custom cursor disabled
-        let curRafId, curDirty = false;
-        function animateCursorThrottled() {
-            rx = lerp(rx, cx, 0.11);
-            ry = lerp(ry, cy, 0.11);
-            if (cur) { cur.style.left = rx + 'px'; cur.style.top = ry + 'px'; }
-            if(Math.abs(rx-cx)>0.3 || Math.abs(ry-cy)>0.3) curRafId = requestAnimationFrame(animateCursorThrottled);
-            else curDirty = false;
-        }
+    function animateCursor() {
+        rx = lerp(rx, cx, 0.11);
+        ry = lerp(ry, cy, 0.11);
+        if (cur) { cur.style.left = rx + 'px'; cur.style.top = ry + 'px'; }
+        requestAnimationFrame(animateCursor);
+    }
+
+    if (window.matchMedia('(hover:hover)').matches && window.innerWidth > 1024) {
         document.addEventListener('mousemove', e => {
             cx = e.clientX; cy = e.clientY;
             if (dot) { dot.style.left = cx + 'px'; dot.style.top = cy + 'px'; }
-            if(!curDirty){ curDirty=true; curRafId=requestAnimationFrame(animateCursorThrottled); }
         }, { passive: true });
 
         document.addEventListener('mouseover', e => {
@@ -6287,7 +6188,8 @@ function closeCookieBanner(){
             else if (e.target.closest('.btn-primary,.btn-secondary')) cur.classList.add('on-btn');
         });
 
-        
+        // animateCursor(); // disabled — native cursor active
+        // document.body.style.cursor = 'none'; // disabled
     }
 
     // ═══════════════════════════════════════════════
@@ -6297,10 +6199,8 @@ function closeCookieBanner(){
     // ═══════════════════════════════════════════════
     let sY = window.scrollY, sTgt = sY;
     let sVel = 0, sPrevY = sY;
-    let pxDirty = false, pxRafId;
 
     function tickParallax() {
-        pxDirty = false;
         sVel  = sY - sPrevY;
         sPrevY = sY;
         sY = lerp(sY, sTgt, 0.085);
@@ -6334,16 +6234,12 @@ function closeCookieBanner(){
         // Maorí parallax
         tickMaoriParallax(sY);
 
-        // Keep running until lerp settles
-        if(Math.abs(sY - sTgt) > 0.3) { pxDirty=true; pxRafId = requestAnimationFrame(tickParallax); }
+        requestAnimationFrame(tickParallax);
     }
 
-    window.addEventListener('scroll', () => {
-        sTgt = window.scrollY;
-        if(!pxDirty){ pxDirty=true; pxRafId=requestAnimationFrame(tickParallax); }
-    }, {passive:true});
-
-    // Scroll handler already wired above in tickParallax setup
+    // ═══════════════════════════════════════════════
+    // 5.  SCROLL HANDLER
+    // ═══════════════════════════════════════════════
     const progressBar = qs('#scroll-progress');
     function updateProgress() {
         if (!progressBar) return;
@@ -6361,6 +6257,8 @@ function closeCookieBanner(){
         const ind = qs('#scrollIndicator');
         if (ind) ind.style.opacity = sTgt > 80 ? '0' : '1';
     }, { passive: true });
+
+    tickParallax();
 
     // ═══════════════════════════════════════════════
     // 6.  SVG TURBULENCE — hover distortion imágenes
@@ -7765,25 +7663,11 @@ nav { z-index: 1000 !important; }
 #cartOverlay { z-index: 3500 !important; }
 #cartPanel   { z-index: 3600 !important; }
 .modal-overlay, .legal-overlay { z-index: 2000 !important; }
-.auth-overlay { z-index: 4000 !important; }
 #cookieBanner { z-index: 9999 !important; }
-#sz-cursor, #sz-cursor-dot { display:none !important; }
+#sz-cursor, #sz-cursor-dot { display: none !important; }
 #page-transition { z-index: 9990 !important; }
 #scroll-progress { z-index: 2000 !important; }
 .back-to-top { z-index: 999 !important; }
-
-/* ── GPU PROMOTION: promote animated elements to their own compositor layer ── */
-#heroImage, #heroText, .hero-eyebrow, #heroSecondaryImg,
-#ambient-orb-1, #ambient-orb-2,
-.mk, .px-layer-bg, .px-layer-mid, .px-layer-fg,
-.cinematic-fullwidth img, .why-panel-img-parallax-inner,
-#cartPanel, .auth-modal, .legal-modal {
-    will-change: transform;
-}
-/* Contain paint for background decorative elements */
-#maori-bg-global, #ambient-orb-1, #ambient-orb-2 {
-    contain: strict;
-}
 
 </style>
 
@@ -7914,10 +7798,8 @@ function setupParallaxEngine(){
   ];
   // Full-width expand scroll tracking
   const fwWraps = $$('.fw-expand-wrap');
-  let px2Dirty = false;
 
   function tick(){
-    px2Dirty = false;
     const sy = window.scrollY;
 
     // Parallax layers
@@ -7945,8 +7827,9 @@ function setupParallaxEngine(){
       if(!wrap) return;
       const rect = wrap.getBoundingClientRect();
       if(rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
+      // progress: 0 when bottom of section enters viewport, 1 when top leaves
       const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-      const offset = (progress - 0.5) * -160;
+      const offset = (progress - 0.5) * -160; // strong parallax: up to ±80px
       inner.style.transform = `translateY(${offset}px)`;
     });
 
@@ -7967,25 +7850,25 @@ function setupParallaxEngine(){
       const p = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
       el.style.transform = `translateX(${(p-0.5)*80}px) translateY(${(p-0.5)*-40}px)`;
     });
+
+    raf2 = requestAnimationFrame(tick);
   }
 
-  // Scroll-driven: fire on scroll, not perpetual RAF
+  // Only start once
   if(!window._px2Running){
     window._px2Running = true;
-    tick(); // initial render
-    window.addEventListener('scroll', () => {
-      if(!px2Dirty){ px2Dirty=true; requestAnimationFrame(tick); }
-    }, {passive:true});
+    tick();
   }
 }
 
 /* ════ 10. MOUSE TILT (faux 3D) ════ */
 function setupMouseTilt(){
   let mxL = window.innerWidth/2, myL = window.innerHeight/2;
-  let tiltDirty = false;
 
-  function applyTilt(){
-    tiltDirty = false;
+  document.addEventListener('mousemove', e => {
+    mxL = lerp(mxL, e.clientX, 0.08);
+    myL = lerp(myL, e.clientY, 0.08);
+
     const cx = window.innerWidth/2, cy = window.innerHeight/2;
     const dx = (mxL - cx)/cx, dy = (myL - cy)/cy;
 
@@ -7996,8 +7879,8 @@ function setupMouseTilt(){
 
     $$('.faux3d-scene').forEach(el => {
       const rect = el.getBoundingClientRect();
-      const localDx = ((mxL - rect.left) / rect.width - 0.5) * 2;
-      const localDy = ((myL - rect.top)  / rect.height - 0.5) * 2;
+      const localDx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      const localDy = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
       const bg  = el.querySelector('.faux3d-bg');
       const mid = el.querySelector('.faux3d-mid');
       const fg  = el.querySelector('.faux3d-fg');
@@ -8005,12 +7888,6 @@ function setupMouseTilt(){
       if(mid) mid.style.transform = `translateZ(0)     scale(1)    translate(${localDx*6}px,${localDy*4}px)`;
       if(fg)  fg.style.transform  = `translateZ(30px)  scale(0.95) translate(${localDx*18}px,${localDy*12}px)`;
     });
-  }
-
-  document.addEventListener('mousemove', e => {
-    mxL = lerp(mxL, e.clientX, 0.08);
-    myL = lerp(myL, e.clientY, 0.08);
-    if(!tiltDirty){ tiltDirty=true; requestAnimationFrame(applyTilt); }
   }, { passive:true });
 
   // Apply mouse-tilt to hero image wrap
@@ -8096,284 +7973,148 @@ document.addEventListener('DOMContentLoaded', () => {
   if(hImg) hImg.style.transition = 'transform 1.2s cubic-bezier(0.16,1,0.3,1), filter 0.8s ease';
 });
 
-// Scroll progress bar is handled inside IMMERSIVE_ENGINE scroll listener above
+/* ════ SCROLL PROGRESS BAR ════ */
+function updateScrollProgress(){
+  const el = document.getElementById('scroll-progress');
+  if(!el) return;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  el.style.width = (max > 0 ? (window.scrollY/max)*100 : 0) + '%';
+}
+window.addEventListener('scroll', updateScrollProgress, { passive:true });
 
 })();
 </script>
 
-<!-- ═══════════ AUTH SYSTEM ═══════════ -->
+<!-- ═══════════ AUTH MODAL ═══════════ -->
+
+<div class="auth-overlay" id="authOverlay" onclick="if(event.target===this)closeAuthModal()">
+    <div class="auth-modal">
+        <div class="auth-modal-header">
+            <div>
+                <div class="auth-eyebrow">MAONYA · Cuenta</div>
+                <h2 id="authModalTitle">Acceder</h2>
+            </div>
+            <button class="auth-modal-close" onclick="closeAuthModal()">✕</button>
+        </div>
+        <div class="auth-modal-body">
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabLogin"    onclick="switchAuthTab('login')">Iniciar Sesión</button>
+                <button class="auth-tab"         id="tabRegister" onclick="switchAuthTab('register')">Registrarse</button>
+            </div>
+            <div class="auth-form active" id="formLogin">
+                <div class="auth-field"><label>Correo electrónico</label><input type="email" id="loginEmail" placeholder="tu@email.com"></div>
+                <div class="auth-field"><label>Contraseña</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
+                <button class="auth-submit" onclick="handleLogin()">Iniciar Sesión</button>
+                <div class="auth-msg" id="loginMsg"></div>
+                <div class="auth-switch">¿No tienes cuenta? <a onclick="switchAuthTab('register')">Regístrate gratis</a></div>
+            </div>
+            <div class="auth-form" id="formRegister">
+                <div class="auth-field"><label>Nombre completo</label><input type="text" id="regName" placeholder="Tu nombre"></div>
+                <div class="auth-field"><label>Correo electrónico</label><input type="email" id="regEmail" placeholder="tu@email.com"></div>
+                <div class="auth-field"><label>Contraseña</label><input type="password" id="regPassword" placeholder="Mínimo 8 caracteres"></div>
+                <div class="auth-field"><label>Confirmar contraseña</label><input type="password" id="regPassword2" placeholder="Repite tu contraseña"></div>
+                <button class="auth-submit" onclick="handleRegister()">Crear Cuenta</button>
+                <div class="auth-msg" id="registerMsg"></div>
+                <div class="auth-switch">¿Ya tienes cuenta? <a onclick="switchAuthTab('login')">Inicia sesión</a></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
 // ── AUTH STATE ──
-let currentUser = null;
-
-(function initAuth(){
-    const saved = localStorage.getItem('maonya_user');
-    if(saved){
-        try{ currentUser = JSON.parse(saved); updateAuthUI(); }
-        catch(e){ localStorage.removeItem('maonya_user'); }
-    }
+let currentUser = (function(){
+    try { return JSON.parse(localStorage.getItem('maonya_user')); } catch(e){ return null; }
 })();
+if (currentUser) updateAuthUI();
 
-// ── OPEN / CLOSE AUTH MODAL ──
-function openAuthModal(tab='login'){
-    const overlay = document.getElementById('authOverlay');
-    if(!overlay) return;
-    overlay.classList.add('active');
+function openAuthModal(tab) {
+    document.getElementById('authOverlay').classList.add('active');
     document.body.style.overflow = 'hidden';
-    switchAuthTab(tab === 'profile' ? 'login' : tab);
-    clearAuthMessages();
-    // Close user dropdown if open
+    switchAuthTab(tab || 'login');
     closeUserDropdown();
 }
-function closeAuthModal(){
-    const overlay = document.getElementById('authOverlay');
-    if(overlay) overlay.classList.remove('active');
+function closeAuthModal() {
+    document.getElementById('authOverlay').classList.remove('active');
     document.body.style.overflow = '';
-    clearAuthMessages();
 }
-
-// ── TAB SWITCH ──
-function switchAuthTab(tab){
-    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
-    const tabEl = document.getElementById('tab' + tab.charAt(0).toUpperCase() + tab.slice(1));
-    const formEl = document.getElementById('form' + tab.charAt(0).toUpperCase() + tab.slice(1));
-    if(tabEl) tabEl.classList.add('active');
-    if(formEl) formEl.classList.add('active');
-    const title = document.getElementById('authModalTitle');
-    if(title) title.textContent = tab === 'login' ? 'Acceder' : 'Crear Cuenta';
-}
-
-function clearAuthMessages(){
-    ['loginMsg','registerMsg'].forEach(id => {
-        const el = document.getElementById(id);
-        if(el){ el.textContent=''; el.className='auth-msg'; }
+function switchAuthTab(tab) {
+    ['login','register'].forEach(t => {
+        document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('active', t === tab);
+        document.getElementById('form' + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('active', t === tab);
     });
+    document.getElementById('authModalTitle').textContent = tab === 'login' ? 'Acceder' : 'Crear Cuenta';
 }
-
-// ── LOGIN ──
-function handleLogin(){
+function handleLogin() {
     const email = document.getElementById('loginEmail').value.trim();
-    const password = document.getElementById('loginPassword').value;
-    const msg = document.getElementById('loginMsg');
-
-    if(!email || !password){
-        showAuthMsg('loginMsg','⚠ Por favor, completa todos los campos.','error'); return;
-    }
-    if(!isValidEmail(email)){
-        showAuthMsg('loginMsg','⚠ Introduce un correo electrónico válido.','error'); return;
-    }
-
-    // Check existing users in localStorage
-    const users = getStoredUsers();
-    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
-
-    if(!user){
-        showAuthMsg('loginMsg','⚠ No existe ninguna cuenta con este correo.','error'); return;
-    }
-    if(user.password !== btoa(password)){
-        showAuthMsg('loginMsg','⚠ La contraseña no es correcta.','error'); return;
-    }
-
-    loginSuccess({ name: user.name, email: user.email });
+    const pw    = document.getElementById('loginPassword').value;
+    const msg   = document.getElementById('loginMsg');
+    if (!email || !pw) { showMsg('loginMsg','⚠ Completa todos los campos.','error'); return; }
+    const users = getUsers();
+    const user  = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (!user)            { showMsg('loginMsg','⚠ No existe cuenta con ese correo.','error'); return; }
+    if (user.pw !== btoa(pw)) { showMsg('loginMsg','⚠ Contraseña incorrecta.','error'); return; }
+    loginOK({ name: user.name, email: user.email });
 }
-
-// ── REGISTER ──
-function handleRegister(){
-    const name     = document.getElementById('regName').value.trim();
-    const email    = document.getElementById('regEmail').value.trim();
-    const pw       = document.getElementById('regPassword').value;
-    const pw2      = document.getElementById('regPassword2').value;
-
-    if(!name || !email || !pw || !pw2){
-        showAuthMsg('registerMsg','⚠ Por favor, completa todos los campos.','error'); return;
-    }
-    if(!isValidEmail(email)){
-        showAuthMsg('registerMsg','⚠ Introduce un correo electrónico válido.','error'); return;
-    }
-    if(pw.length < 8){
-        showAuthMsg('registerMsg','⚠ La contraseña debe tener al menos 8 caracteres.','error'); return;
-    }
-    if(pw !== pw2){
-        showAuthMsg('registerMsg','⚠ Las contraseñas no coinciden.','error'); return;
-    }
-
-    const users = getStoredUsers();
-    if(users.find(u => u.email.toLowerCase() === email.toLowerCase())){
-        showAuthMsg('registerMsg','⚠ Ya existe una cuenta con este correo.','error'); return;
-    }
-
-    // Store new user
-    users.push({ name, email, password: btoa(pw) });
+function handleRegister() {
+    const name = document.getElementById('regName').value.trim();
+    const email= document.getElementById('regEmail').value.trim();
+    const pw   = document.getElementById('regPassword').value;
+    const pw2  = document.getElementById('regPassword2').value;
+    if (!name||!email||!pw||!pw2) { showMsg('registerMsg','⚠ Completa todos los campos.','error'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showMsg('registerMsg','⚠ Email no válido.','error'); return; }
+    if (pw.length < 8)  { showMsg('registerMsg','⚠ Mínimo 8 caracteres.','error'); return; }
+    if (pw !== pw2)     { showMsg('registerMsg','⚠ Las contraseñas no coinciden.','error'); return; }
+    const users = getUsers();
+    if (users.find(u => u.email.toLowerCase() === email.toLowerCase())) { showMsg('registerMsg','⚠ Ya existe una cuenta con ese correo.','error'); return; }
+    users.push({ name, email, pw: btoa(pw) });
     localStorage.setItem('maonya_users', JSON.stringify(users));
-
-    showAuthMsg('registerMsg','✓ ¡Cuenta creada con éxito! Iniciando sesión…','success');
-    setTimeout(() => loginSuccess({ name, email }), 1200);
+    showMsg('registerMsg','✓ ¡Cuenta creada! Iniciando sesión…','success');
+    setTimeout(() => loginOK({ name, email }), 1000);
 }
-
-// ── SOCIAL AUTH (demo) ──
-function handleSocialAuth(provider){
-    const demoUser = { name: 'Usuario ' + provider, email: provider.toLowerCase() + '@demo.maonya.com' };
-    loginSuccess(demoUser);
-}
-
-// ── LOGIN SUCCESS ──
-function loginSuccess(user){
+function loginOK(user) {
     currentUser = user;
     localStorage.setItem('maonya_user', JSON.stringify(user));
     updateAuthUI();
     setTimeout(closeAuthModal, 400);
-    showCartToast(user.name, '¡Bienvenido/a!', 'MAONYA');
 }
-
-// ── LOGOUT ──
-function logoutUser(){
+function logoutUser() {
     currentUser = null;
     localStorage.removeItem('maonya_user');
     updateAuthUI();
     closeUserDropdown();
-    showCartToast('Sesión cerrada', '', '');
 }
-
-// ── UPDATE UI ──
-function updateAuthUI(){
-    const btn = document.getElementById('authBtn');
-    const mobileLink = document.getElementById('mobileAuthLink');
-    const dropdownName = document.getElementById('dropdownName');
-    const dropdownEmail = document.getElementById('dropdownEmail');
-
-    if(currentUser){
-        if(btn){
-            btn.classList.add('logged-in');
-            btn.onclick = toggleUserDropdown;
-            btn.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;flex-shrink:0"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/></svg>
-                <span class="auth-label">${currentUser.name.split(' ')[0]}</span>`;
-        }
-        if(mobileLink) mobileLink.textContent = currentUser.name.split(' ')[0] + ' · Cerrar sesión';
-        if(mobileLink) mobileLink.onclick = function(){ logoutUser(); toggleMenu(); };
-        if(dropdownName) dropdownName.textContent = currentUser.name;
-        if(dropdownEmail) dropdownEmail.textContent = currentUser.email;
-    } else {
-        if(btn){
-            btn.classList.remove('logged-in');
-            btn.onclick = () => openAuthModal('login');
-            btn.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;flex-shrink:0"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/></svg>
-                <span class="auth-label">Acceder</span>`;
-        }
-        if(mobileLink){ mobileLink.textContent = 'Acceder / Registrarse'; mobileLink.onclick = () => openAuthModal('login'); }
-    }
-}
-
-// ── USER DROPDOWN ──
-function toggleUserDropdown(){
-    const dd = document.getElementById('userDropdown');
-    if(!dd) return;
-    const isOpen = dd.classList.contains('open');
-    if(isOpen) closeUserDropdown();
-    else {
-        dd.classList.add('open');
-        setTimeout(() => document.addEventListener('click', outsideDropdownClick, { once:true }), 0);
-    }
-}
-function closeUserDropdown(){
-    const dd = document.getElementById('userDropdown');
-    if(dd) dd.classList.remove('open');
-}
-function outsideDropdownClick(e){
-    const wrap = document.getElementById('userMenuWrap');
-    if(wrap && !wrap.contains(e.target)) closeUserDropdown();
-}
-
-// ── MOBILE AUTH ACTION ──
-function mobileAuthAction(){
-    toggleMenu();
-    setTimeout(() => {
-        if(currentUser) logoutUser();
-        else openAuthModal('login');
-    }, 300);
-}
-
-// ── HELPERS ──
-function isValidEmail(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
-function getStoredUsers(){
-    try{ return JSON.parse(localStorage.getItem('maonya_users') || '[]'); }
-    catch(e){ return []; }
-}
-function showAuthMsg(id, text, type){
-    const el = document.getElementById(id);
-    if(el){ el.textContent = text; el.className = 'auth-msg ' + type; }
-}
-
-// ── CHECKOUT: funciona con wallet, cuenta de email, o sin nada (pide elegir) ──
-function checkout() {
-    if (cart.length === 0) return;
-
-    const total = cart.reduce((s, i) => s + i.precioEUR * i.qty, 0);
-    const totalSOL = convertirEURaSOL(total);
-
-    // Si tiene wallet conectada → pago Phantom
-    if (walletAddress) {
-        showCheckoutModal({
-            icon: '🚀',
-            title: 'Pagar con Phantom',
-            body: `Wallet: <b>${walletAddress.slice(0,6)}...${walletAddress.slice(-4)}</b><br>Total: <b>${total.toFixed(2)} €</b> · ≈ <b>${totalSOL} SOL</b><br><br><small style="color:#86869A">En producción aquí se firmaría la transacción on-chain en Solana.</small>`,
-            btnLabel: 'Confirmar Pago',
-            onConfirm: () => { cart = []; saveCart(); updateCartBadge(); closeCart(); }
-        });
-        return;
-    }
-
-    // Si tiene cuenta de email → pedido por email
+function updateAuthUI() {
+    const btn  = document.getElementById('authBtn');
+    const mLink= document.getElementById('mobileAuthLink');
+    const dName= document.getElementById('dropdownName');
+    const dEmail=document.getElementById('dropdownEmail');
+    if (!btn) return;
     if (currentUser) {
-        showCheckoutModal({
-            icon: '✓',
-            title: 'Confirmar Pedido',
-            body: `Cuenta: <b>${currentUser.email}</b><br>Total: <b>${total.toFixed(2)} €</b><br><br><small style="color:#86869A">Recibirás un email de confirmación con los detalles del envío y tu NFT.</small>`,
-            btnLabel: 'Realizar Pedido',
-            onConfirm: () => { cart = []; saveCart(); updateCartBadge(); closeCart(); }
-        });
-        return;
+        btn.classList.add('logged-in');
+        btn.onclick = toggleUserDropdown;
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;flex-shrink:0"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/></svg><span class="auth-label">' + currentUser.name.split(' ')[0] + '</span>';
+        if (dName)  dName.textContent  = currentUser.name;
+        if (dEmail) dEmail.textContent = currentUser.email;
+        if (mLink)  { mLink.textContent = currentUser.name.split(' ')[0] + ' · Salir'; mLink.onclick = function(){ logoutUser(); toggleMenu(); }; }
+    } else {
+        btn.classList.remove('logged-in');
+        btn.onclick = () => openAuthModal('login');
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;flex-shrink:0"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/></svg><span class="auth-label">Acceder</span>';
+        if (mLink)  { mLink.textContent = 'Acceder / Registrarse'; mLink.onclick = () => { openAuthModal('login'); toggleMenu(); }; }
     }
-
-    // Sin cuenta ni wallet → mostrar opciones dentro del carrito
-    showCheckoutOptions(total, totalSOL);
 }
-
-function showCheckoutModal({ icon, title, body, btnLabel, onConfirm }) {
-    // Reusa el footer del carrito como área de confirmación
-    const footer = document.querySelector('#cartPanel > div:last-child');
-    if (!footer) return;
-    const prev = footer.innerHTML;
-    footer.innerHTML = `
-        <div style="background:#F8F7FF;border-radius:0.6rem;padding:1.1rem;margin-bottom:0.85rem;font-size:0.85rem;line-height:1.6;">
-            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.04em;margin-bottom:0.5rem;">${icon} ${title}</div>
-            ${body}
-        </div>
-        <button class="btn-checkout" onclick="(${onConfirm.toString()})();renderCartPanel();" style="background:#9945FF;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:6px;"><path d="M20 6L9 17l-5-5"/></svg>
-            ${btnLabel}
-        </button>
-        <button onclick="renderCartPanel()" style="width:100%;margin-top:0.5rem;padding:0.65rem;border:1.5px solid #E5E5EA;background:#fff;border-radius:0.5rem;cursor:pointer;font-family:'Syne',sans-serif;font-size:0.78rem;color:#86869A;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;">← Volver al carrito</button>`;
+function toggleUserDropdown() {
+    const dd = document.getElementById('userDropdown');
+    if (!dd) return;
+    if (dd.classList.contains('open')) { closeUserDropdown(); }
+    else { dd.classList.add('open'); setTimeout(() => document.addEventListener('click', outsideDD, {once:true}), 0); }
 }
-
-function showCheckoutOptions(total, totalSOL) {
-    const footer = document.querySelector('#cartPanel > div:last-child');
-    if (!footer) return;
-    footer.innerHTML = `
-        <div style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:#86869A;margin-bottom:0.75rem;text-align:center;">¿Cómo quieres pagar?</div>
-        <button class="btn-checkout" onclick="closeCart();setTimeout(()=>connectWallet(),300);" style="margin-bottom:0.5rem;background:#9945FF;display:flex;align-items:center;justify-content:center;gap:0.5rem;">
-            <svg viewBox="0 0 397 311" fill="none" style="width:16px;height:16px;flex-shrink:0;"><defs><linearGradient id="sol-co" x1="360" y1="35" x2="57" y2="338" gradientUnits="userSpaceOnUse"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="rgba(255,255,255,0.7)"/></linearGradient></defs><path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7zM64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1L333.1 73.8c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8zM333.1 120.1c-2.4-2.4-5.7-3.8-9.2-3.8H6.5c-5.8 0-8.7 7-4.6 11.1l62.7 62.7c2.4 2.4 5.7 3.8 9.2 3.8h317.4c5.8 0 8.7-7 4.6-11.1l-62.7-62.7z" fill="url(#sol-co)"/></svg>
-            Pagar con Phantom · ${totalSOL} SOL
-        </button>
-        <button class="btn-checkout" onclick="closeCart();setTimeout(()=>openAuthModal('login'),300);" style="background:#0A0A0F;margin-bottom:0.5rem;">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:6px;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7"/></svg>
-            Pagar con Cuenta · ${total.toFixed(2)} €
-        </button>
-        <button onclick="renderCartPanel()" style="width:100%;padding:0.65rem;border:1.5px solid #E5E5EA;background:#fff;border-radius:0.5rem;cursor:pointer;font-family:'Syne',sans-serif;font-size:0.78rem;color:#86869A;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;">← Volver al carrito</button>`;
-}
+function closeUserDropdown() { const dd=document.getElementById('userDropdown'); if(dd) dd.classList.remove('open'); }
+function outsideDD(e) { const w=document.getElementById('userDropdown'); if(w&&!w.closest('.user-menu-wrap').contains(e.target)) closeUserDropdown(); }
+function mobileAuthAction() { toggleMenu(); setTimeout(()=>{ if(currentUser) logoutUser(); else openAuthModal('login'); },300); }
+function showMsg(id,txt,type){ const el=document.getElementById(id); if(el){el.textContent=txt;el.className='auth-msg '+type;} }
+function getUsers(){ try{return JSON.parse(localStorage.getItem('maonya_users')||'[]');}catch(e){return[];} }
 </script>
 
 </body>
