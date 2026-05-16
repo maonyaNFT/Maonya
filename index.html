@@ -1286,19 +1286,25 @@ width: 500px; height: 500px;
 background: radial-gradient(circle, rgba(20,241,149,0.5) 0%, transparent 70%);
 }
 .footer-section ul li a {
-position: relative; display: inline-block;
-overflow: hidden;
+position: relative;
+display: inline-flex;
+align-items: center;
+gap: 0.4rem;
 }
-.footer-section ul li a::before {
-content: attr(data-text);
-position: absolute; top: 0; left: 0;
-transform: translateY(100%);
-transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
-color: var(–purple);
-white-space: nowrap;
+.footer-section ul li a::before { display: none !important; }
+.footer-section ul li a:hover {
+color: #ffffff !important;
+padding-left: 0.5rem !important;
 }
-.footer-section ul li a:hover { color: transparent; }
-.footer-section ul li a:hover::before { transform: translateY(0); }
+.footer-section ul li a::after {
+content: ‘’;
+position: absolute;
+bottom: -1px; left: 0;
+width: 0; height: 1px;
+background: var(–purple, #9945FF);
+transition: width 0.25s ease;
+}
+.footer-section ul li a:hover::after { width: 100%; }
 
 /* ══════════════════════════════════════════
 COOKIE BANNER
@@ -2919,19 +2925,25 @@ width: 500px; height: 500px;
 background: radial-gradient(circle, rgba(20,241,149,0.5) 0%, transparent 70%);
 }
 .footer-section ul li a {
-position: relative; display: inline-block;
-overflow: hidden;
+position: relative;
+display: inline-flex;
+align-items: center;
+gap: 0.4rem;
 }
-.footer-section ul li a::before {
-content: attr(data-text);
-position: absolute; top: 0; left: 0;
-transform: translateY(100%);
-transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
-color: var(–purple);
-white-space: nowrap;
+.footer-section ul li a::before { display: none !important; }
+.footer-section ul li a:hover {
+color: #ffffff !important;
+padding-left: 0.5rem !important;
 }
-.footer-section ul li a:hover { color: transparent; }
-.footer-section ul li a:hover::before { transform: translateY(0); }
+.footer-section ul li a::after {
+content: ‘’;
+position: absolute;
+bottom: -1px; left: 0;
+width: 0; height: 1px;
+background: var(–purple, #9945FF);
+transition: width 0.25s ease;
+}
+.footer-section ul li a:hover::after { width: 100%; }
 
 /* ══════════════════════════════════════════
 COOKIE BANNER
@@ -4190,6 +4202,11 @@ nav img{display:block;}
 
 /* ── 5. AUTH MODAL above cart ── */
 .auth-overlay { z-index: 4000 !important; }
+
+/* ── 7. FOOTER SOCIAL HOVER — always legible ── */
+.footer-section ul li a { overflow: visible !important; }
+.footer-section ul li a:hover { color: #ffffff !important; }
+.footer-section ul li a::before { display: none !important; content: none !important; }
 
 /* ── 6. CUSTOM CURSOR: disabled ── */
 #sz-cursor, #sz-cursor-dot { display: none !important; }
