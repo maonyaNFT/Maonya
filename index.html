@@ -4203,6 +4203,21 @@ nav img{display:block;}
 /* ── 5. AUTH MODAL above cart ── */
 .auth-overlay { z-index: 4000 !important; }
 
+/* ── 8. WHY-PANEL IMAGES — full image visible, crisp ── */
+.why-panel-img {
+    object-fit: contain !important;
+    object-position: center center !important;
+    image-rendering: auto !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+}
+.why-panel-img-parallax-inner {
+    transform: none !important;
+    will-change: auto !important;
+    inset: 0 !important;
+    height: 100% !important;
+}
+
 /* ── 7. FOOTER SOCIAL HOVER — always legible ── */
 .footer-section ul li a { overflow: visible !important; }
 .footer-section ul li a:hover { color: #ffffff !important; }
@@ -4939,7 +4954,9 @@ const CMS = {
                     alt="Streetwear Oversize MAONYA"
                     class="why-panel-img"
                     id="whyPanelImg1"
-                    loading="lazy"
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
                     onerror="this.style.display='none';this.closest('.why-panel-img-parallax-inner').previousElementSibling.style.opacity='1';"
                 />
                 </div>
@@ -4983,7 +5000,9 @@ const CMS = {
                     alt="NFT Gemelo MAONYA"
                     class="why-panel-img"
                     id="whyPanelImg2"
-                    loading="lazy"
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
                     onerror="this.style.display='none';this.closest('.why-panel-img-parallax-inner').previousElementSibling.style.opacity='1';"
                 />
                 </div>
@@ -7301,32 +7320,40 @@ img.loaded { background:none; }
     border-color: rgba(153,69,255,0.2);
 }
 
-/* ── Image area ── */
+/* ── Image area — Apple-style ── */
 .why-panel-image-wrap {
     position: relative;
     width: 100%;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 4 / 5;
     overflow: hidden;
-    background: #f0eefc;
+    background: #f5f0ff;
+    border-radius: inherit;
+    transition: none;
+}
+@media (max-width: 840px) {
+    .why-panel-image-wrap { aspect-ratio: 3 / 4; }
+}
+@media (max-width: 480px) {
+    .why-panel-image-wrap { aspect-ratio: 3 / 4; }
 }
 
-/* Parallax container for why-panel images */
+/* Parallax inner wrapper */
 .why-panel-img-parallax-inner {
     position: absolute;
-    inset: -25% 0;
-    height: 150%;
+    inset: 0;
     width: 100%;
-    will-change: transform;
-    transition: transform 0.05s linear;
+    height: 100%;
     z-index: 1;
+    will-change: auto;
+    transform: none;
 }
 
-/* Overlays and badges must sit above the parallax wrapper */
+/* Overlays and badges sit above */
 .why-panel-img-overlay { z-index: 2; }
 .why-panel-badge { z-index: 3; }
 .why-panel-koru { z-index: 3; }
 
-/* Fallback background shown when image fails */
+/* Fallback backgrounds */
 .why-panel-img-bg {
     position: absolute;
     inset: 0;
@@ -7334,7 +7361,7 @@ img.loaded { background:none; }
     transition: opacity 0.3s;
 }
 .why-panel-img-bg--physical {
-    background: 
+    background:
         radial-gradient(ellipse 60% 80% at 30% 40%, rgba(153,69,255,0.15) 0%, transparent 60%),
         radial-gradient(ellipse 50% 60% at 70% 70%, rgba(20,241,149,0.10) 0%, transparent 60%),
         linear-gradient(145deg, #f5f0ff 0%, #edfff6 100%);
@@ -7346,24 +7373,53 @@ img.loaded { background:none; }
         linear-gradient(145deg, #edfff6 0%, #f5f0ff 100%);
 }
 
-/* The image itself */
+/* Image — contain so full image always visible */
 .why-panel-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
+    object-fit: contain;
+    object-position: center center;
     display: block;
-    image-rendering: auto;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    filter: contrast(1.04) saturate(1.06) brightness(1.01);
-    transition: transform 0.7s cubic-bezier(0.16,1,0.3,1), filter 0.6s ease;
-    position: relative;
-    z-index: 1;
+    transform-origin: center center;
+    image-rendering: auto;
+    filter: none;
+    transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Apple-style hover: subtle scale */
+.why-panel-image-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    transition: background 0.5s ease;
+    z-index: 4;
+    pointer-events: none;
+}
+.why-panel:hover .why-panel-image-wrap::after {
+    background: rgba(0,0,0,0.04);
 }
 .why-panel:hover .why-panel-img {
     transform: scale(1.04);
-    filter: contrast(1.06) saturate(1.10) brightness(1.03);
+}
+
+/* CSS scroll-driven parallax */
+@supports (animation-timeline: scroll()) {
+    .why-panel-img {
+        animation: why-img-parallax linear both;
+        animation-timeline: view();
+        animation-range: entry 0% exit 100%;
+    }
+    @keyframes why-img-parallax {
+        from { transform: scale(1.06) translateY(-3%); }
+        to   { transform: scale(1.06) translateY(3%); }
+    }
+    .why-panel:hover .why-panel-img {
+        animation: none;
+        transform: scale(1.05);
+    }
 }
 
 /* Gradient overlay on image */
@@ -7857,17 +7913,7 @@ function setupParallaxEngine(){
       if(img) img.style.transform = `scale(1.15) translateY(${(progress - 0.5) * -50}px)`;
     });
 
-    // Why-panel images parallax (Streetwear + NFT Gemelo)
-    $$('.why-panel-img-parallax-inner').forEach(inner => {
-      const wrap = inner.closest('.why-panel-image-wrap');
-      if(!wrap) return;
-      const rect = wrap.getBoundingClientRect();
-      if(rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
-      // progress: 0 when bottom of section enters viewport, 1 when top leaves
-      const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-      const offset = (progress - 0.5) * -160; // strong parallax: up to ±80px
-      inner.style.transform = `translateY(${offset}px)`;
-    });
+    // Why-panel parallax handled by CSS (no JS needed)
 
     // Fullwidth expand on scroll (item 8)
     fwWraps.forEach(wrap => {
